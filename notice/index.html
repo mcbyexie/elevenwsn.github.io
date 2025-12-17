@@ -179,3 +179,333 @@
             border-radius: 20px;
             white-space: nowrap;
         }
+        
+        .notice-content {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .notice-content p {
+            margin-bottom: 10px;
+        }
+        
+        .notice-content a {
+            color: var(--info);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .notice-content a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        
+        .notice-content b {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .server-address {
+            background-color: rgba(35, 134, 54, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .server-address p {
+            margin: 0;
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+        
+        .domain-card {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(35, 134, 54, 0.1));
+            border: 1px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .domain-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .domain-link:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .warning-notice {
+            border-left: 4px solid var(--warning);
+        }
+        
+        .warning-notice .notice-title {
+            color: var(--warning);
+        }
+        
+        .update-log {
+            border-left: 4px solid var(--info);
+        }
+        
+        .update-log .notice-title {
+            color: var(--info);
+        }
+        
+        .mod-download {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .download-btn {
+            background-color: var(--accent);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s;
+        }
+        
+        .download-btn:hover {
+            background-color: #2ea043;
+        }
+        
+        .download-btn.secondary {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        
+        .download-btn.secondary:hover {
+            background-color: rgba(139, 148, 158, 0.1);
+            color: var(--text-primary);
+        }
+        
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+            font-size: 0.95rem;
+        }
+        
+        footer p {
+            margin: 5px 0;
+        }
+        
+        .footer-built {
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                gap: 20px;
+            }
+            
+            .page-title h1 {
+                font-size: 2.2rem;
+            }
+            
+            .notice-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .notice-date {
+                align-self: flex-start;
+            }
+            
+            .domain-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+            
+            .page-title h1 {
+                font-size: 1.8rem;
+            }
+            
+            .notice-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航菜单 -->
+    <header>
+        <div class="container nav-container">
+            <a href="https://www.firecreeper.top/" class="logo">
+                <i class="fas fa-server"></i>
+                ByeXie<span>Server</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="https://www.firecreeper.top/" class="active"><i class="fas fa-home"></i> 首页</a></li>
+                    <li><a href="https://www.firecreeper.top/notice"><i class="fas fa-bullhorn"></i> 公告</a></li>
+                    <li><a href="https://www.firecreeper.top/about"><i class="fas fa-info-circle"></i> 关于</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container">
+        <div class="page-title">
+            <h1>服务器公告</h1>
+            <p>最新服务器动态、更新日志和重要通知</p>
+        </div>
+        
+        <!-- 域名公告 -->
+        <div class="notice-card domain-card">
+            <div>
+                <h3 class="notice-title"><i class="fas fa-cube"></i> 花重金买了个域名🌽</h3>
+                <div class="notice-content">
+                    <p>骗你的实际上就8块</p>
+                </div>
+            </div>
+            <a href="https://www.firecreeper.top" class="domain-link" target="_blank">
+                <i class="fas fa-external-link-alt"></i> 访问 firecreeper.top
+            </a>
+        </div>
+        
+        <!-- 服务器新开通知 -->
+        <div class="notice-card warning-notice">
+            <div class="notice-header">
+                <h3 class="notice-title"><i class="fas fa-exclamation-triangle"></i> 重要通知：服务器已新开</h3>
+                <span class="notice-date">11月2日</span>
+            </div>
+            <div class="notice-content">
+                <p><b>⚠️注意：先前存档已备份，现已新开</b></p>
+                <p>本次将以<b>无限制纯生存</b>作为主题，进行游戏</p>
+                <div class="server-address">
+                    <p>服务器地址：play.simpfun.cn:35611</p>
+                </div>
+                <p>查询最新地址请看群公告或访问此网站</p>
+            </div>
+        </div>
+        
+        <!-- 网络错误通知 -->
+        <div class="notice-card">
+            <div class="notice-header">
+                <h3 class="notice-title"><i class="fas fa-network-wired"></i> 十月三日网络错误</h3>
+                <span class="notice-date">10月3日</span>
+            </div>
+            <div class="notice-content">
+                <p><b>服务器出现网络流量问题，如有影响游戏体验感请反馈</b></p>
+            </div>
+        </div>
+        
+        <!-- 更新日志 -->
+        <div class="notice-card update-log">
+            <div class="notice-header">
+                <h3 class="notice-title"><i class="fas fa-code-branch"></i> 十月二日更新日志</h3>
+                <span class="notice-date">10月2日</span>
+            </div>
+            <div class="notice-content">
+                <p>1. 将Java17升级为Java21</p>
+                <p>2. 升级Fabric Loader 从0.15.11升级到0.17.2</p>
+                <p>3. 添加模组"天境aether-1.20.1-1.5.2-beta.1-fabric.jar"</p>
+                <p>请自行下载，或者使用以下链接：</p>
+                <div class="mod-download">
+                    <a href="https://www.123684.com/s/sLuSTd-FZWxH" class="download-btn" target="_blank">
+                        <i class="fas fa-download"></i> 点击下载
+                    </a>
+                    <span style="color: var(--text-secondary); font-size: 0.9rem;">(不推荐，无法自行找到时可尝试)</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <p>--- ByeXie's Minecraft Server ---</p>
+            <p class="footer-built">Built by ByeXie</p>
+            <p style="margin-top: 15px; font-size: 0.85rem;">© 2023 firecreeper.top | 服务器公告页面</p>
+        </div>
+    </footer>
+
+    <script>
+        // 简单交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 导航菜单当前页高亮
+            const currentPage = window.location.pathname;
+            const navLinks = document.querySelectorAll('nav a');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage || 
+                   (currentPage.includes('notice') && link.textContent.includes('公告'))) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            
+            // 卡片进入视口时的动画
+            const cards = document.querySelectorAll('.notice-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s, transform 0.5s';
+                observer.observe(card);
+            });
+            
+            // 模拟公告发布日期计算
+            const dateElements = document.querySelectorAll('.notice-date');
+            const today = new Date();
+            
+            dateElements.forEach(el => {
+                const dateText = el.textContent;
+                if (dateText.includes('11月')) {
+                    el.innerHTML = `<i class="far fa-calendar-alt"></i> ${dateText}`;
+                } else if (dateText.includes('10月')) {
+                    el.innerHTML = `<i class="far fa-calendar-alt"></i> ${dateText}`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
