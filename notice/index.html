@@ -25,6 +25,8 @@
             --border-color: #30363d;
             --warning: #da3633;
             --info: #1f6feb;
+            --notice-blue: #0969da;
+            --notice-blue-dark: #0858c2;
         }
         
         body {
@@ -139,6 +141,72 @@
             font-size: 1.1rem;
             max-width: 600px;
             margin: 0 auto;
+        }
+        
+        /* 置顶标签 */
+        .sticky-label {
+            position: sticky;
+            top: 80px;
+            z-index: 90;
+            margin-bottom: 20px;
+        }
+        
+        .sticky-notice {
+            background: linear-gradient(135deg, var(--notice-blue), var(--notice-blue-dark));
+            color: white;
+            border-radius: 12px;
+            padding: 20px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 8px 25px rgba(9, 105, 218, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: pulse-blue 2s infinite alternate;
+        }
+        
+        .sticky-notice-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .sticky-notice-icon {
+            font-size: 2rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .sticky-notice-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .sticky-notice-text p {
+            font-size: 1.05rem;
+            opacity: 0.95;
+        }
+        
+        .sticky-notice-date {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+        
+        @keyframes pulse-blue {
+            0% {
+                box-shadow: 0 8px 25px rgba(9, 105, 218, 0.3);
+            }
+            100% {
+                box-shadow: 0 8px 30px rgba(9, 105, 218, 0.5);
+            }
         }
         
         /* 公告卡片 */
@@ -319,12 +387,26 @@
         /* 响应式设计 */
         @media (max-width: 768px) {
             .nav-container {
-                flex-direction: column;
-                gap: 15px;
+                flex-direction: row; /* 保持水平布局 */
+                padding: 12px 0;
+                flex-wrap: wrap;
+            }
+            
+            .logo {
+                font-size: 1.3rem;
+                margin-bottom: 0;
             }
             
             nav ul {
-                gap: 20px;
+                gap: 15px; /* 减小间距以适应小屏幕 */
+                margin-top: 0;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav a {
+                font-size: 0.95rem;
+                padding: 6px 3px;
             }
             
             .page-title h1 {
@@ -345,13 +427,43 @@
                 align-items: flex-start;
                 gap: 15px;
             }
+            
+            .sticky-notice {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .sticky-notice-content {
+                flex-direction: column;
+                text-align: center;
+            }
         }
         
         @media (max-width: 480px) {
-            nav ul {
+            .nav-container {
                 flex-direction: column;
                 gap: 10px;
-                align-items: center;
+                padding: 10px 0;
+            }
+            
+            .logo {
+                margin-bottom: 0;
+            }
+            
+            nav ul {
+                width: 100%;
+                justify-content: space-around;
+                gap: 5px;
+            }
+            
+            nav a {
+                font-size: 0.9rem;
+                padding: 5px 2px;
+            }
+            
+            nav a i {
+                margin-right: 3px;
             }
             
             .page-title h1 {
@@ -360,6 +472,40 @@
             
             .notice-title {
                 font-size: 1.3rem;
+            }
+            
+            .sticky-notice-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .sticky-notice-text h3 {
+                font-size: 1.3rem;
+            }
+        }
+        
+        /* 超小屏幕优化 */
+        @media (max-width: 360px) {
+            nav ul {
+                gap: 8px;
+                justify-content: space-between;
+            }
+            
+            nav a {
+                font-size: 0.85rem;
+                padding: 4px 1px;
+            }
+            
+            nav a i {
+                display: block;
+                text-align: center;
+                margin-right: 0;
+                margin-bottom: 2px;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -374,9 +520,9 @@
             </a>
             <nav>
                 <ul>
-                    <li><a href="https://www.firecreeper.top/" class="active"><i class="fas fa-home"></i> 首页</a></li>
-                    <li><a href="https://www.firecreeper.top/notice"><i class="fas fa-bullhorn"></i> 公告</a></li>
-                    <li><a href="https://www.firecreeper.top/about"><i class="fas fa-info-circle"></i> 关于</a></li>
+                    <li><a href="https://www.firecreeper.top/" class="active"><i class="fas fa-home"></i> <span class="nav-text">首页</span></a></li>
+                    <li><a href="https://www.firecreeper.top/notice"><i class="fas fa-bullhorn"></i> <span class="nav-text">公告</span></a></li>
+                    <li><a href="https://www.firecreeper.top/about"><i class="fas fa-info-circle"></i> <span class="nav-text">关于</span></a></li>
                 </ul>
             </nav>
         </div>
@@ -387,6 +533,24 @@
         <div class="page-title">
             <h1>服务器公告</h1>
             <p>最新服务器动态、更新日志和重要通知</p>
+        </div>
+        
+        <!-- 置顶停运通知 -->
+        <div class="sticky-label">
+            <div class="sticky-notice">
+                <div class="sticky-notice-content">
+                    <div class="sticky-notice-icon">
+                        <i class="fas fa-pause-circle"></i>
+                    </div>
+                    <div class="sticky-notice-text">
+                        <h3>服务器停运通知</h3>
+                        <p>服务器正式停运，预计在寒假重新开启，感谢大家的理解与支持！</p>
+                    </div>
+                </div>
+                <div class="sticky-notice-date">
+                    <i class="far fa-calendar-alt"></i> 2025年12月17日
+                </div>
+            </div>
         </div>
         
         <!-- 域名公告 -->
@@ -455,7 +619,7 @@
         <div class="container">
             <p>--- ByeXie's Minecraft Server ---</p>
             <p class="footer-built">Built by ByeXie</p>
-            <p style="margin-top: 15px; font-size: 0.85rem;">© 2025 firecreeper.top | 服务器公告页面</p>
+            <p style="margin-top: 15px; font-size: 0.85rem;">© 2023-2025 firecreeper.top | 服务器公告页面</p>
         </div>
     </footer>
 
@@ -493,18 +657,46 @@
                 observer.observe(card);
             });
             
-            // 模拟公告发布日期计算
-            const dateElements = document.querySelectorAll('.notice-date');
-            const today = new Date();
-            
-            dateElements.forEach(el => {
-                const dateText = el.textContent;
-                if (dateText.includes('11月')) {
-                    el.innerHTML = `<i class="far fa-calendar-alt"></i> ${dateText}`;
-                } else if (dateText.includes('10月')) {
-                    el.innerHTML = `<i class="far fa-calendar-alt"></i> ${dateText}`;
-                }
+            // 置顶通知的悬浮效果
+            const stickyNotice = document.querySelector('.sticky-notice');
+            stickyNotice.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+                this.style.boxShadow = '0 12px 30px rgba(9, 105, 218, 0.4)';
             });
+            
+            stickyNotice.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 8px 25px rgba(9, 105, 218, 0.3)';
+            });
+            
+            // 手机屏幕导航优化
+            function optimizeNavForMobile() {
+                const navContainer = document.querySelector('.nav-container');
+                const nav = document.querySelector('nav ul');
+                const screenWidth = window.innerWidth;
+                
+                if (screenWidth <= 480) {
+                    // 超小屏幕时，将图标和文字垂直排列
+                    const navItems = document.querySelectorAll('.nav-text');
+                    navItems.forEach(item => {
+                        item.style.display = 'block';
+                        item.style.fontSize = '0.75rem';
+                        item.style.textAlign = 'center';
+                    });
+                } else {
+                    // 恢复默认
+                    const navItems = document.querySelectorAll('.nav-text');
+                    navItems.forEach(item => {
+                        item.style.display = 'inline';
+                        item.style.fontSize = '';
+                        item.style.textAlign = '';
+                    });
+                }
+            }
+            
+            // 初始化并监听窗口大小变化
+            optimizeNavForMobile();
+            window.addEventListener('resize', optimizeNavForMobile);
         });
     </script>
 </body>
