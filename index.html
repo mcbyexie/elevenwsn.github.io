@@ -3,11 +3,376 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notice From ByeXie's Server</title>
+    <title>ByeXie's MC服务器 | Fabric 1.21.1 模组下载</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid #eaeaea;
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .server-info {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .version-badge {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .alert-box {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #3498db;
+        }
+        
+        .alert-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 1.5rem;
+        }
+        
+        .alert-title i {
+            color: #3498db;
+        }
+        
+        .alert-text {
+            color: #555;
+            font-size: 1.15rem;
+            line-height: 1.7;
+        }
+        
+        .download-section {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 40px;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .section-subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.05rem;
+        }
+        
+        .download-card {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px auto;
+            max-width: 700px;
+            border: 1px solid #eaeaea;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .download-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .mod-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .mod-icon {
+            background-color: #3498db;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+        
+        .mod-name {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .mod-desc {
+            color: #666;
+            margin-bottom: 15px;
+            max-width: 600px;
+        }
+        
+        .password-note {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #3498db;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn i {
+            font-size: 1.2rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 60px;
+            border-top: 1px solid #eaeaea;
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+        
+        .footer-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .logo {
+                font-size: 2.2rem;
+            }
+            
+            .alert-box, .download-section {
+                padding: 25px 20px;
+            }
+            
+            .download-card {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-<center>
-    <h1><a href=https://www.byexie.top/notice>点我看公告</a></h1>
-    ---首页还没建完（残废版）---
-</center>
+    <div class="container">
+        <header>
+            <h1 class="logo">ByeXie's Minecraft服务器</h1>
+            <p class="server-info">Fabric模组服务器 | 纯净游戏体验</p>
+            <div class="version-badge">当前版本：1.21.1 Fabric</div>
+        </header>
+        
+        <main class="main-content">
+            <div class="alert-box">
+                <h2 class="alert-title">
+                    <i class="fas fa-exclamation-circle"></i>
+                    重要通知
+                </h2>
+                <p class="alert-text">
+                    服务器已更新至 <strong>Minecraft 1.21.1 Fabric</strong> 版本。为了确保您能正常进入服务器游戏，请务必下载并安装最新版本的客户端模组。如果您已安装旧版本模组，请先删除旧模组再安装新版本。
+                </p>
+            </div>
+            
+            <div class="download-section">
+                <h2 class="section-title">模组下载</h2>
+                <p class="section-subtitle">请下载并安装以下模组包以进入服务器</p>
+                
+                <div class="download-card">
+                    <div class="mod-info">
+                        <div class="mod-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <h3 class="mod-name">Fabric 1.21.1 客户端模组包</h3>
+                        <p class="mod-desc">
+                            此模组包包含服务器所需的所有客户端模组，确保与服务器完全兼容。下载后请将文件放入 Minecraft 的 "mods" 文件夹中。
+                        </p>
+                        
+                        <div class="password-note">
+                            <i class="fas fa-key"></i>
+                            <span>提取密码：<strong>75d0</strong></span>
+                        </div>
+                        
+                        <a href="https://tykevin.lanzoue.com/b00wnd62pi" target="_blank" class="btn">
+                            <i class="fas fa-external-link-alt"></i>
+                            前往蓝奏云下载页面
+                        </a>
+                        
+                        <p style="margin-top: 15px; color: #7f8c8d; font-size: 0.95rem;">
+                            <i class="fas fa-info-circle"></i> 点击上方按钮将跳转到蓝奏云下载页面，输入密码后即可下载
+                        </p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; padding: 20px; background-color: #f8f9fa; border-radius: 10px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <i class="fas fa-question-circle"></i> 安装说明
+                    </h3>
+                    <ol style="text-align: left; max-width: 600px; margin: 0 auto; color: #555; line-height: 1.8;">
+                        <li>下载模组文件后，打开 Minecraft 游戏文件夹</li>
+                        <li>找到并进入 "mods" 文件夹（如果没有请新建一个）</li>
+                        <li>将下载的模组文件复制到 "mods" 文件夹中</li>
+                        <li>确保您已安装 Fabric Loader for Minecraft 1.21.1</li>
+                        <li>启动游戏，选择 Fabric 1.21.1 版本进入游戏</li>
+                    </ol>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <footer>
+        <p>© 2023 ByeXie's Minecraft服务器 保留所有权利</p>
+        <div class="footer-info">
+            <div class="footer-item">
+                <i class="fas fa-user"></i>
+                <span>服主：ByeXie</span>
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-gamepad"></i>
+                <span>版本：Minecraft 1.21.1 Fabric</span>
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>更新日期：2023年11月</span>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 简单交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const downloadBtn = document.querySelector('.btn');
+            
+            // 下载按钮点击动画
+            downloadBtn.addEventListener('click', function(e) {
+                // 添加点击反馈
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+                
+                // 模拟下载开始（实际会跳转到外部链接）
+                console.log('正在跳转到模组下载页面...');
+            });
+            
+            // 页面加载时的简单动画
+            const cards = document.querySelectorAll('.download-card, .alert-box');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.6s, transform 0.6s';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            
+            // 版本徽章颜色交替效果
+            const versionBadge = document.querySelector('.version-badge');
+            const colors = ['#3498db', '#2ecc71', '#9b59b6', '#e74c3c'];
+            let currentColorIndex = 0;
+            
+            // 每3秒切换一次颜色（可选效果，已注释）
+            // setInterval(() => {
+            //     currentColorIndex = (currentColorIndex + 1) % colors.length;
+            //     versionBadge.style.backgroundColor = colors[currentColorIndex];
+            // }, 3000);
+        });
+    </script>
 </body>
+</html>
