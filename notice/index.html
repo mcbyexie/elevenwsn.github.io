@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ByeXie服务器公告</title>
+    <title>ByeXie's MC服务器 | 公告中心</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -13,690 +13,373 @@
             font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
         }
         
-        :root {
-            --primary: #ff6b35;
-            --primary-dark: #e55627;
-            --dark-bg: #0f1419;
-            --darker-bg: #0a0e12;
-            --card-bg: #1a2129;
-            --text-primary: #f0f6fc;
-            --text-secondary: #8b949e;
-            --accent: #238636;
-            --border-color: #30363d;
-            --warning: #da3633;
-            --info: #1f6feb;
-            --notice-blue: #0969da;
-            --notice-blue-dark: #0858c2;
-        }
-        
         body {
-            background-color: var(--dark-bg);
-            color: var(--text-primary);
+            background-color: #f8f9fa;
+            color: #333;
             line-height: 1.6;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(35, 134, 54, 0.1) 0%, transparent 20%);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 20px;
+            flex: 1;
         }
         
-        /* 顶部导航菜单 */
         header {
-            background-color: rgba(10, 14, 18, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 1px solid #eaeaea;
+            margin-bottom: 40px;
         }
         
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            color: var(--text-primary);
-            text-decoration: none;
-        }
-        
-        .logo i {
-            color: var(--primary);
-        }
-        
-        .logo span {
-            color: var(--primary);
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-        
-        nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1.05rem;
-            transition: all 0.3s;
-            padding: 8px 4px;
-            position: relative;
-        }
-        
-        nav a:hover {
-            color: var(--text-primary);
-        }
-        
-        nav a.active {
-            color: var(--primary);
-        }
-        
-        nav a.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--primary);
-        }
-        
-        /* 主内容区 */
-        main {
-            padding: 40px 0 80px;
-        }
-        
-        .page-title {
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-        }
-        
-        .page-title h1 {
-            font-size: 2.8rem;
+            color: #2c3e50;
             margin-bottom: 10px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: inline-block;
         }
         
-        .page-title p {
-            color: var(--text-secondary);
+        .server-info {
+            color: #7f8c8d;
             font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        /* 置顶标签 */
-        .sticky-label {
-            position: sticky;
-            top: 80px;
-            z-index: 90;
-            margin-bottom: 20px;
-        }
-        
-        .sticky-notice {
-            background: linear-gradient(135deg, var(--notice-blue), var(--notice-blue-dark));
-            color: white;
-            border-radius: 12px;
-            padding: 20px 25px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 8px 25px rgba(9, 105, 218, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: pulse-blue 2s infinite alternate;
-        }
-        
-        .sticky-notice-content {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .sticky-notice-icon {
-            font-size: 2rem;
-            background-color: rgba(255, 255, 255, 0.2);
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-        
-        .sticky-notice-text h3 {
-            font-size: 1.5rem;
             margin-bottom: 5px;
         }
         
-        .sticky-notice-text p {
-            font-size: 1.05rem;
-            opacity: 0.95;
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
         }
         
-        .sticky-notice-date {
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
+        .nav-link {
+            color: #3498db;
+            text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
-            white-space: nowrap;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        @keyframes pulse-blue {
-            0% {
-                box-shadow: 0 8px 25px rgba(9, 105, 218, 0.3);
-            }
-            100% {
-                box-shadow: 0 8px 30px rgba(9, 105, 218, 0.5);
-            }
+        .nav-link:hover {
+            background-color: #e3f2fd;
         }
         
-        /* 公告卡片 */
-        .notice-card {
-            background-color: var(--card-bg);
+        .nav-link.active {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .page-title {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .page-subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .notice-section {
+            background-color: #fff;
             border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 25px;
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .notice-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            border-color: var(--primary);
+            padding: 40px;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
         
         .notice-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
         }
         
         .notice-title {
-            font-size: 1.5rem;
-            color: var(--text-primary);
-            margin-bottom: 5px;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
         
         .notice-date {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            background-color: rgba(139, 148, 158, 0.1);
-            padding: 4px 10px;
+            background-color: #3498db;
+            color: white;
+            padding: 8px 16px;
             border-radius: 20px;
-            white-space: nowrap;
+            font-size: 0.95rem;
+            font-weight: 600;
         }
         
         .notice-content {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-        
-        .notice-content p {
-            margin-bottom: 10px;
-        }
-        
-        .notice-content a {
-            color: var(--info);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        
-        .notice-content a:hover {
-            color: var(--primary);
-            text-decoration: underline;
-        }
-        
-        .notice-content b {
-            color: var(--text-primary);
-            font-weight: 600;
+            color: #555;
+            font-size: 1.15rem;
+            line-height: 1.8;
         }
         
         .server-address {
-            background-color: rgba(35, 134, 54, 0.1);
-            border-left: 4px solid var(--accent);
-            padding: 12px 15px;
-            margin: 15px 0;
-            border-radius: 0 8px 8px 0;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            border-left: 4px solid #2ecc71;
         }
         
-        .server-address p {
-            margin: 0;
-            font-family: monospace;
-            font-size: 1.1rem;
-            color: var(--text-primary);
-        }
-        
-        .domain-card {
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(35, 134, 54, 0.1));
-            border: 1px solid var(--primary);
+        .address-title {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 10px;
+            color: #2c3e50;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
         }
         
-        .domain-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background-color: var(--primary);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
-            text-decoration: none;
+        .address-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
             font-weight: 600;
-            transition: background-color 0.3s;
+            color: #2ecc71;
+            padding: 10px 15px;
+            background-color: white;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 5px;
         }
         
-        .domain-link:hover {
-            background-color: var(--primary-dark);
-        }
-        
-        .warning-notice {
-            border-left: 4px solid var(--warning);
-        }
-        
-        .warning-notice .notice-title {
-            color: var(--warning);
-        }
-        
-        .update-log {
-            border-left: 4px solid var(--info);
-        }
-        
-        .update-log .notice-title {
-            color: var(--info);
-        }
-        
-        .mod-download {
+        .lucky-note {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
             display: flex;
-            flex-wrap: wrap;
+            align-items: flex-start;
             gap: 15px;
-            margin-top: 15px;
         }
         
-        .download-btn {
-            background-color: var(--accent);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
+        .lucky-note i {
+            font-size: 1.5rem;
+            color: #f39c12;
+            flex-shrink: 0;
+        }
+        
+        .back-to-home {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            transition: background-color 0.3s;
+            gap: 10px;
+            background-color: #3498db;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            margin-top: 30px;
         }
         
-        .download-btn:hover {
-            background-color: #2ea043;
+        .back-to-home:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(52, 152, 219, 0.3);
         }
         
-        .download-btn.secondary {
-            background-color: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-        }
-        
-        .download-btn.secondary:hover {
-            background-color: rgba(139, 148, 158, 0.1);
-            color: var(--text-primary);
-        }
-        
-        /* 页脚 */
         footer {
             text-align: center;
-            padding: 25px 0;
-            color: var(--text-secondary);
-            border-top: 1px solid var(--border-color);
-            margin-top: 40px;
+            padding: 30px 0;
+            margin-top: 60px;
+            border-top: 1px solid #eaeaea;
+            color: #7f8c8d;
             font-size: 0.95rem;
         }
         
-        footer p {
-            margin: 5px 0;
+        .footer-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            flex-wrap: wrap;
         }
         
-        .footer-built {
-            color: var(--primary);
-            font-weight: 600;
-            margin-top: 10px;
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        /* 响应式设计 */
+        /* 响应式调整 */
         @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: row; /* 保持水平布局 */
-                padding: 12px 0;
-                flex-wrap: wrap;
+            .container {
+                padding: 15px;
             }
             
             .logo {
-                font-size: 1.3rem;
-                margin-bottom: 0;
-            }
-            
-            nav ul {
-                gap: 15px; /* 减小间距以适应小屏幕 */
-                margin-top: 0;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            nav a {
-                font-size: 0.95rem;
-                padding: 6px 3px;
-            }
-            
-            .page-title h1 {
                 font-size: 2.2rem;
             }
             
+            .notice-section {
+                padding: 25px 20px;
+            }
+            
             .notice-header {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .notice-date {
-                align-self: flex-start;
-            }
-            
-            .domain-card {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 15px;
             }
             
-            .sticky-notice {
-                flex-direction: column;
+            .nav-bar {
                 gap: 15px;
-                text-align: center;
             }
             
-            .sticky-notice-content {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 10px;
-                padding: 10px 0;
-            }
-            
-            .logo {
-                margin-bottom: 0;
-            }
-            
-            nav ul {
-                width: 100%;
-                justify-content: space-around;
-                gap: 5px;
-            }
-            
-            nav a {
-                font-size: 0.9rem;
-                padding: 5px 2px;
-            }
-            
-            nav a i {
-                margin-right: 3px;
-            }
-            
-            .page-title h1 {
-                font-size: 1.8rem;
-            }
-            
-            .notice-title {
-                font-size: 1.3rem;
-            }
-            
-            .sticky-notice-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-            }
-            
-            .sticky-notice-text h3 {
-                font-size: 1.3rem;
-            }
-        }
-        
-        /* 超小屏幕优化 */
-        @media (max-width: 360px) {
-            nav ul {
-                gap: 8px;
-                justify-content: space-between;
-            }
-            
-            nav a {
-                font-size: 0.85rem;
-                padding: 4px 1px;
-            }
-            
-            nav a i {
-                display: block;
-                text-align: center;
-                margin-right: 0;
-                margin-bottom: 2px;
-            }
-            
-            .logo {
-                font-size: 1.2rem;
+            .address-text {
+                font-size: 1.1rem;
+                word-break: break-all;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 顶部导航菜单 -->
-    <header>
-        <div class="container nav-container">
-            <a href="https://www.firecreeper.top/" class="logo">
-                <i class="fas fa-server"></i>
-                ByeXie<span>Server</span>
-            </a>
-            <nav>
-                <ul>
-                    <li><a href="https://www.firecreeper.top/" class="active"><i class="fas fa-home"></i> <span class="nav-text">首页</span></a></li>
-                    <li><a href="https://www.firecreeper.top/notice"><i class="fas fa-bullhorn"></i> <span class="nav-text">公告</span></a></li>
-                    <li><a href="https://www.firecreeper.top/about"><i class="fas fa-info-circle"></i> <span class="nav-text">关于</span></a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <!-- 主内容区 -->
-    <main class="container">
-        <div class="page-title">
-            <h1>服务器公告</h1>
-            <p>最新服务器动态、更新日志和重要通知</p>
-        </div>
-        
-        <!-- 置顶停运通知 -->
-        <div class="sticky-label">
-            <div class="sticky-notice">
-                <div class="sticky-notice-content">
-                    <div class="sticky-notice-icon">
-                        <i class="fas fa-pause-circle"></i>
-                    </div>
-                    <div class="sticky-notice-text">
-                        <h3>服务器停运通知</h3>
-                        <p>服务器正式停运，预计在寒假重新开启，感谢大家的理解与支持！</p>
-                    </div>
-                </div>
-                <div class="sticky-notice-date">
-                    <i class="far fa-calendar-alt"></i> 2025年12月17日
-                </div>
+    <div class="container">
+        <header>
+            <h1 class="logo">ByeXie's Minecraft服务器</h1>
+            <p class="server-info">Fabric模组服务器 | 自由建筑</p>
+            <div class="nav-bar">
+                <a href="www.byexie.top/index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    首页
+                </a>
+                <a href="www.byexie.top/notice" class="nav-link active">
+                    <i class="fas fa-newspaper"></i>
+                    公告
+                </a>
+                <a href="www.byexie.top/" class="nav-link">
+                    <i class="fas fa-download"></i>
+                    模组下载
+                </a>
+                <a href="www.byexie.top/about" class="nav-link">
+                    <i class="fas fa-info-circle"></i>
+                    关于服务器
+                </a>
             </div>
-        </div>
+        </header>
         
-        <!-- 域名公告 -->
-        <div class="notice-card domain-card">
+        <main class="main-content">
             <div>
-                <h3 class="notice-title"><i class="fas fa-cube"></i> 花重金买了个域名🌽</h3>
+                <h1 class="page-title">服务器公告</h1>
+                <p class="page-subtitle">了解服务器最新动态、维护通知和版本更新信息</p>
+            </div>
+            
+            <div class="notice-section">
+                <div class="notice-header">
+                    <h2 class="notice-title">
+                        <i class="fas fa-bullhorn"></i>
+                        服务器复活通知
+                    </h2>
+                    <div class="notice-date">2月6日</div>
+                </div>
+                
                 <div class="notice-content">
-                    <p>骗你的实际上就8块</p>
+                    <p>服务器复活啦！但是玩家的dat都丢失了。。。</p>
+                    
+                    <p style="margin-top: 15px;">幸好这是建筑服😁</p>
+                    
+                    <div class="server-address">
+                        <div class="address-title">
+                            <i class="fas fa-server"></i>
+                            服务器连接信息
+                        </div>
+                        <p>请使用以下地址连接服务器：</p>
+                        <div class="address-text">simpfun.cn:12766</div>
+                        <p style="margin-top: 10px; color: #666; font-size: 0.95rem;">
+                            <i class="fas fa-info-circle"></i> 请确保您已安装正确的客户端模组（Fabric 1.21.1版本）
+                        </p>
+                    </div>
+                    
+                    <p style="margin-top: 20px; font-weight: 600; color: #2c3e50;">感谢大家的理解与支持，期待在游戏中见到你们！</p>
                 </div>
             </div>
-            <a href="https://www.firecreeper.top" class="domain-link" target="_blank">
-                <i class="fas fa-external-link-alt"></i> 访问 firecreeper.top
+            
+            <a href="index.html" class="back-to-home">
+                <i class="fas fa-arrow-left"></i>
+                返回首页
             </a>
-        </div>
-        
-        <!-- 服务器新开通知 -->
-        <div class="notice-card warning-notice">
-            <div class="notice-header">
-                <h3 class="notice-title"><i class="fas fa-exclamation-triangle"></i> 重要通知：服务器已新开</h3>
-                <span class="notice-date">11月2日</span>
-            </div>
-            <div class="notice-content">
-                <p><b>⚠️注意：先前存档已备份，现已新开</b></p>
-                <p>本次将以<b>无限制纯生存</b>作为主题，进行游戏</p>
-                <div class="server-address">
-                    <p>服务器地址：play.simpfun.cn:35611</p>
-                </div>
-                <p>查询最新地址请看群公告或访问此网站</p>
-            </div>
-        </div>
-        
-        <!-- 网络错误通知 -->
-        <div class="notice-card">
-            <div class="notice-header">
-                <h3 class="notice-title"><i class="fas fa-network-wired"></i> 十月三日网络错误</h3>
-                <span class="notice-date">10月3日</span>
-            </div>
-            <div class="notice-content">
-                <p><b>服务器出现网络流量问题，如有影响游戏体验感请反馈</b></p>
-            </div>
-        </div>
-        
-        <!-- 更新日志 -->
-        <div class="notice-card update-log">
-            <div class="notice-header">
-                <h3 class="notice-title"><i class="fas fa-code-branch"></i> 十月二日更新日志</h3>
-                <span class="notice-date">10月2日</span>
-            </div>
-            <div class="notice-content">
-                <p>1. 将Java17升级为Java21</p>
-                <p>2. 升级Fabric Loader 从0.15.11升级到0.17.2</p>
-                <p>3. 添加模组"天境aether-1.20.1-1.5.2-beta.1-fabric.jar"</p>
-                <p>请自行下载，或者使用以下链接：</p>
-                <div class="mod-download">
-                    <a href="https://www.123684.com/s/sLuSTd-FZWxH" class="download-btn" target="_blank">
-                        <i class="fas fa-download"></i> 点击下载
-                    </a>
-                    <span style="color: var(--text-secondary); font-size: 0.9rem;">(不推荐，无法自行找到时可尝试)</span>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- 页脚 -->
+        </main>
+    </div>
+    
     <footer>
-        <div class="container">
-            <p>--- ByeXie's Minecraft Server ---</p>
-            <p class="footer-built">Built by ByeXie</p>
-            <p style="margin-top: 15px; font-size: 0.85rem;">© 2023-2025 firecreeper.top | 服务器公告页面</p>
+        <p>© 2025-2026 ByeXie's Minecraft服务器 保留所有权利</p>
+        <div class="footer-info">
+            <div class="footer-item">
+                <i class="fas fa-user"></i>
+                <span>服主：ByeXie</span>
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-gamepad"></i>
+                <span>版本：Minecraft 1.21.1 Fabric</span>
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>最后更新：2026年2月6日</span>
+            </div>
         </div>
     </footer>
-
+    
     <script>
-        // 简单交互效果
         document.addEventListener('DOMContentLoaded', function() {
-            // 导航菜单当前页高亮
-            const currentPage = window.location.pathname;
-            const navLinks = document.querySelectorAll('nav a');
-            
+            // 导航链接交互效果
+            const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
-                if (link.getAttribute('href') === currentPage || 
-                   (currentPage.includes('notice') && link.textContent.includes('公告'))) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-            
-            // 卡片进入视口时的动画
-            const cards = document.querySelectorAll('.notice-card');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
+                link.addEventListener('click', function() {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
                 });
-            }, { threshold: 0.1 });
-            
-            cards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'opacity 0.5s, transform 0.5s';
-                observer.observe(card);
             });
             
-            // 置顶通知的悬浮效果
-            const stickyNotice = document.querySelector('.sticky-notice');
-            stickyNotice.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-3px)';
-                this.style.boxShadow = '0 12px 30px rgba(9, 105, 218, 0.4)';
+            // 服务器地址复制功能
+            const addressText = document.querySelector('.address-text');
+            addressText.addEventListener('click', function() {
+                const textToCopy = this.textContent;
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = this.textContent;
+                    this.textContent = '已复制到剪贴板！';
+                    this.style.backgroundColor = '#2ecc71';
+                    this.style.color = 'white';
+                    
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.style.backgroundColor = 'white';
+                        this.style.color = '#2ecc71';
+                    }, 2000);
+                });
             });
             
-            stickyNotice.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-                this.style.boxShadow = '0 8px 25px rgba(9, 105, 218, 0.3)';
-            });
-            
-            // 手机屏幕导航优化
-            function optimizeNavForMobile() {
-                const navContainer = document.querySelector('.nav-container');
-                const nav = document.querySelector('nav ul');
-                const screenWidth = window.innerWidth;
-                
-                if (screenWidth <= 480) {
-                    // 超小屏幕时，将图标和文字垂直排列
-                    const navItems = document.querySelectorAll('.nav-text');
-                    navItems.forEach(item => {
-                        item.style.display = 'block';
-                        item.style.fontSize = '0.75rem';
-                        item.style.textAlign = 'center';
-                    });
-                } else {
-                    // 恢复默认
-                    const navItems = document.querySelectorAll('.nav-text');
-                    navItems.forEach(item => {
-                        item.style.display = 'inline';
-                        item.style.fontSize = '';
-                        item.style.textAlign = '';
-                    });
-                }
-            }
-            
-            // 初始化并监听窗口大小变化
-            optimizeNavForMobile();
-            window.addEventListener('resize', optimizeNavForMobile);
+            // 添加复制提示
+            addressText.style.cursor = 'pointer';
+            addressText.title = '点击复制服务器地址';
         });
     </script>
 </body>
