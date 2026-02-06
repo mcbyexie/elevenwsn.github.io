@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支持 ByeXie's MC服务器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .back-to-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+        
+        .back-to-home:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(52, 152, 219, 0.3);
+        }
+        
+        .donation-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 50px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+        
+        .donation-header {
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .avatar-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid #eaeaea;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .avatar-container:hover {
+            border-color: #3498db;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .server-info {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .donation-title {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .donation-subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .commitment-box {
+            background-color: #e8f4fc;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 5px solid #3498db;
+        }
+        
+        .commitment-text {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            font-weight: 600;
+            line-height: 1.7;
+        }
+        
+        .donation-method {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 40px;
+            margin: 40px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .donation-method:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .method-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            background-color: #07c160;
+            color: white;
+        }
+        
+        .method-name {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .method-desc {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            max-width: 600px;
+        }
+        
+        .wechat-qr {
+            width: 220px;
+            height: 220px;
+            margin: 20px 0;
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
+            padding: 15px;
+            background-color: white;
+        }
+        
+        .qr-placeholder {
+            width: 220px;
+            height: 220px;
+            margin: 20px 0;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            background-color: #fdfdfd;
+        }
+        
+        .wechat-tip {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-top: 25px;
+            font-weight: 600;
+            max-width: 600px;
+            line-height: 1.7;
+        }
+        
+        .donation-note {
+            background-color: #e8f4fc;
+            border: 1px solid #d1ecf1;
+            color: #0c5460;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 40px 0;
+            text-align: left;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        .donation-note h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid #eaeaea;
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+        
+        .footer-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .donation-card {
+                padding: 30px 20px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .donation-title {
+                font-size: 1.8rem;
+            }
+            
+            .avatar-container {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .donation-method {
+                padding: 30px 20px;
+            }
+            
+            .method-name {
+                font-size: 1.5rem;
+            }
+            
+            .wechat-qr, .qr-placeholder {
+                width: 180px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="www.byexie.top/" class="back-to-home">
+            <i class="fas fa-arrow-left"></i>
+            返回首页
+        </a>
+        
+        <div class="donation-card">
+            <div class="donation-header">
+                <a href="https://i.imgs.ovh/2026/02/06/yEEYWg.jpeg" target="_blank" class="avatar-container">
+                    <img src="https://i.imgs.ovh/2026/02/06/yEEYWg.jpeg" alt="服主头像" class="avatar">
+                </a>
+                <h1 class="logo">ByeXie's Minecraft服务器</h1>
+                <p class="server-info">Fabric模组服务器 | 纯净游戏体验</p>
+            </div>
+            
+            <h2 class="donation-title">
+                <i class="fas fa-heart"></i>
+                支持服务器运营
+                <i class="fas fa-heart"></i>
+            </h2>
+            
+            <p class="donation-subtitle">
+                您的支持将帮助服务器持续运行，提供更稳定、更优质的游戏体验。我们承诺所有捐赠将全部用于服务器运营与维护。
+            </p>
+            
+            <div class="commitment-box">
+                <p class="commitment-text">
+                    您捐赠的每一分钱我都会花在服务器的运营与维护上。
+                </p>
+            </div>
+            
+            <div class="donation-method">
+                <div class="method-icon">
+                    <i class="fab fa-weixin"></i>
+                </div>
+                <h3 class="method-name">添加服主微信</h3>
+                <p class="method-desc">
+                    如果您想支持服务器运营，请添加服主微信进行捐赠。<br>
+                    捐赠后请备注您的游戏ID，以便服主记录感谢。
+                </p>
+                
+                <div class="qr-placeholder">
+                    <i class="fas fa-qrcode" style="font-size: 3.5rem; margin-bottom: 15px;"></i>
+                    <span>服主微信二维码</span>
+                    <span style="font-size: 0.9rem; margin-top: 8px;">请上传微信二维码图片</span>
+                </div>
+                
+                <div class="wechat-tip">
+                    <i class="fas fa-question-circle"></i>
+                    什么？你还没有服主微信？去交流群里看看吧！
+                </div>
+                
+                <div style="margin-top: 25px; padding: 15px 25px; background-color: #f8f9fa; border-radius: 10px; max-width: 600px;">
+                    <p style="color: #2c3e50; font-weight: 600; margin-bottom: 10px;">
+                        <i class="fas fa-comments"></i>
+                        交流群信息
+                    </p>
+                    <p style="color: #666;">
+                        请通过游戏内公告或玩家推荐加入服务器官方交流群，群内会分享服主联系方式和其他重要信息。
+                    </p>
+                </div>
+            </div>
+            
+            <div class="donation-note">
+                <h4>
+                    <i class="fas fa-info-circle"></i>
+                    捐赠说明与承诺
+                </h4>
+                <ul style="padding-left: 20px;">
+                    <li><strong>完全自愿：</strong>捐赠是自愿行为，不会影响您在服务器中的正常游戏体验</li>
+                    <li><strong>资金透明：</strong>服务器将定期公开捐赠使用情况，确保资金透明</li>
+                    <li><strong>用途明确：</strong>所有捐赠资金将用于服务器硬件升级、网络费用、维护成本和未来扩展</li>
+                    <li><strong>捐赠确认：</strong>捐赠后请保留截图，如需确认可通过交流群联系服主</li>
+                    <li><strong>特别感谢：</strong>所有捐赠者将在服务器特别感谢名单中记录（如您希望匿名请告知）</li>
+                </ul>
+                <p style="margin-top: 15px; font-style: italic; color: #3498db;">
+                    感谢您对服务器社区的支持与贡献！您的每一份支持都是我们持续前进的动力。
+                </p>
+            </div>
+            
+            <footer>
+                <p>© 2023-2026 ByeXie's Minecraft服务器 保留所有权利</p>
+                <div class="footer-info">
+                    <div class="footer-item">
+                        <i class="fas fa-user"></i>
+                        <span>服主：ByeXie</span>
+                    </div>
+                    <div class="footer-item">
+                        <i class="fas fa-gamepad"></i>
+                        <span>版本：Minecraft 1.21.1 Fabric</span>
+                    </div>
+                    <div class="footer-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>最后更新：2026年2月6日</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 头像点击效果
+            const avatarContainer = document.querySelector('.avatar-container');
+            avatarContainer.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+                console.log('正在打开头像大图...');
+            });
+            
+            // 返回首页按钮动画
+            const backButton = document.querySelector('.back-to-home');
+            backButton.addEventListener('click', function(e) {
+                // 修正链接格式
+                const href = this.getAttribute('href');
+                if (!href.startsWith('http')) {
+                    this.setAttribute('href', 'https://' + href);
+                }
+                
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+            
+            // 承诺框强调效果
+            const commitmentBox = document.querySelector('.commitment-box');
+            setInterval(() => {
+                commitmentBox.style.boxShadow = '0 0 0 3px rgba(52, 152, 219, 0.4)';
+                setTimeout(() => {
+                    commitmentBox.style.boxShadow = '';
+                }, 1000);
+            }, 5000);
+            
+            // 捐赠方法卡片悬停效果
+            const donationMethod = document.querySelector('.donation-method');
+            donationMethod.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 15px 30px rgba(7, 193, 96, 0.15)';
+            });
+            
+            donationMethod.addEventListener('mouseleave', function() {
+                this.style.boxShadow = '';
+            });
+            
+            // 微信提示框交互
+            const wechatTip = document.querySelector('.wechat-tip');
+            wechatTip.addEventListener('click', function() {
+                this.style.backgroundColor = '#ffeaa7';
+                setTimeout(() => {
+                    this.style.backgroundColor = '#fff3cd';
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
