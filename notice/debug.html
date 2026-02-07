@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>公告系统诊断</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+        .result { padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .loading { background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; }
+        pre { background: white; padding: 10px; overflow: auto; }
+    </style>
+</head>
+<body>
+    <h1>📱 公告系统诊断</h1>
+    <p>这个页面将测试所有必要文件是否能正常加载。</p>
+    
+    <div id="status" class="result loading">正在初始化诊断...</div>
+    
+    <div id="fileTests"></div>
+    
+    <h3>当前时间戳：</h3>
+    <pre id="timestamp"></pre>
+    
+    <h3>浏览器信息：</h3>
+    <pre id="browserInfo"></pre>
+    
+    <button onclick="runAllTests()">重新运行测试</button>
+    
+    <script>
+        const FILE_LIST = [
+            '/notice/json-files/index.json',
+            '/notice/json-files/202602071846.json',
+            '/notice/json-files/202602071516.json', 
+            '/notice/json-files/202602071425.json'
+        ];
+        
+        const statusDiv = document.getElementById('status');
+        const fileTestsDiv = document.getElementById('fileTests');
+        const timestampDiv = document.getElementById('timestamp');
+        const browserInfoDiv = document.getElementById('browserInfo');
+        
+        // 显示基本信息
+        timestampDiv.textContent = new Date().toISOString();
+        browserInfoDiv.textContent = navigator.userAgent;
+        
+        async function runAllTests() {
+            fileTestsDiv.innerHTML = '';
+            statusDiv.className = 'result loading';
+            statusDiv.innerHTML = '正在测试文件加载...';
+            
+            let allPassed = true;
+            
+            // 1. 测试主配置文件 index.json
+            const indexResult = await testFile(FILE_LIST[0], true);
+            fileTestsDiv.innerHTML += indexResult.html;
+            if (!indexResult.passed) allPassed = false;
+            
+            // 2. 测试每个公告JSON文件
+            for (let i = 1; i < FILE_LIST.length; i++) {
+                const result = await testFile(FILE_LIST[i]);
+                fileTestsDiv.innerHTML += result.html;
+                if (!result.passed) allPassed = false;
+            }
+            
+            // 3. 测试 fetch API 是否可用
+            const fetchTest = await testFetchAPI();
+            fileTestsDiv.innerHTML += fetchTest.html;
+            if (!fetchTest.passed) allPassed = false;
+            
+            // 显示最终结果
+            if (allPassed) {
+                statusDiv.className = 'result success';
+                statusDiv.innerHTML = '✅ 所有基础测试通过！问题可能在JavaScript逻辑中。';
+            } else {
+                statusDiv.className = 'result error';
+                statusDiv.innerHTML = '❌ 发现文件加载问题，请查看上方详细报告。';
+            }
+        }
+        
+        async function testFile(url, isIndex = false) {
+            const startTime = Date.now();
+            
+            try {
+                const response = await fetch(url);
+                const elapsed = Date.now() - startTime;
+                
+                if (response.ok) {
+                    const text = await response.text();
+                    
+                    if (isIndex) {
+                        // 特殊处理index.json
+                        try {
+                            const data = JSON.parse(text);
+                            if (data.files && Array.isArray(data.files)) {
+                                return {
+                                    passed: true,
+                                    html: `<div class="result success">
+                                        ✅ <strong>${url}</strong> (${elapsed}ms)<br>
+                                        状态: ${response.status}<br>
+                                        文件列表: ${JSON.stringify(data.files)}
+                                    </div>`
+                                };
+                            } else {
+                                return {
+                                    passed: false,
+                                    html: `<div class="result error">
+                                        ❌ <strong>${url}</strong><br>
+                                        格式错误：缺少 files 数组
+                                    </div>`
+                                };
+                            }
+                        } catch (e) {
+                            return {
+                                passed: false,
+                                html: `<div class="result error">
+                                    ❌ <strong>${url}</strong><br>
+                                    JSON解析失败：${e.message}
+                                </div>`
+                            };
+                        }
+                    } else {
+                        // 普通JSON文件测试
+                        try {
+                            const data = JSON.parse(text);
+                            return {
+                                passed: true,
+                                html: `<div class="result success">
+                                    ✅ <strong>${url}</strong> (${elapsed}ms)<br>
+                                    状态: ${response.status}<br>
+                                    标题: "${data.title || '无'}"
+                                </div>`
+                            };
+                        } catch (e) {
+                            return {
+                                passed: false,
+                                html: `<div class="result error">
+                                    ❌ <strong>${url}</strong><br>
+                                    JSON解析失败：${e.message}
+                                </div>`
+                            };
+                        }
+                    }
+                } else {
+                    return {
+                        passed: false,
+                        html: `<div class="result error">
+                            ❌ <strong>${url}</strong><br>
+                            状态: ${response.status} ${response.statusText}
+                        </div>`
+                    };
+                }
+            } catch (error) {
+                return {
+                    passed: false,
+                    html: `<div class="result error">
+                        ❌ <strong>${url}</strong><br>
+                        网络错误: ${error.message}
+                    </div>`
+                };
+            }
+        }
+        
+        async function testFetchAPI() {
+            try {
+                // 尝试一个简单的fetch请求
+                await fetch('/');
+                return {
+                    passed: true,
+                    html: `<div class="result success">
+                        ✅ Fetch API 可用
+                    </div>`
+                };
+            } catch (error) {
+                return {
+                    passed: false,
+                    html: `<div class="result error">
+                        ❌ Fetch API 不可用: ${error.message}
+                    </div>`
+                };
+            }
+        }
+        
+        // 页面加载时自动运行测试
+        setTimeout(runAllTests, 500);
+    </script>
+</body>
+</html>
