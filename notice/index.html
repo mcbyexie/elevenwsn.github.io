@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ByeXie's MC服务器 | 公告中心</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <!-- 添加版本戳防止缓存问题 -->
+    <link rel="stylesheet" href="style.css?v=20260208">
 </head>
 <body>
     <div class="container">
@@ -23,13 +24,13 @@
                 </a>
             </div>
         </header>
-        
+
         <main class="main-content">
             <div>
                 <h1 class="page-title">服务器公告</h1>
                 <p class="page-subtitle">最新动态与通知</p>
             </div>
-            
+
             <!-- 公告列表容器 -->
             <div id="notices-container" class="notices-container">
                 <div class="loading">
@@ -37,16 +38,40 @@
                     <p>正在加载公告...</p>
                 </div>
             </div>
-            
+
             <!-- 公告类型筛选 -->
             <div class="filter-container">
                 <button class="filter-btn active" data-filter="all">全部公告</button>
                 <button class="filter-btn" data-filter="通知">通知</button>
                 <button class="filter-btn" data-filter="警告">警告</button>
-                <button class="filter-btn" data-filter="节日庆祝">彩蛋</button>
+                <button class="filter-btn" data-filter="彩蛋">彩蛋</button>
+            </div>
+
+            <!-- 浏览器问题提示区域（默认隐藏） -->
+            <div id="browser-compatibility-alert" style="display: none; margin-top: 30px;">
+                <div class="browser-error" style="background-color: #fff3cd; border: 1px solid #ffeaa7; color: #856404; padding: 20px; border-radius: 10px;">
+                    <h3 style="margin-top: 0; color: #856404;">
+                        <i class="fas fa-exclamation-triangle"></i> 浏览器兼容性提示
+                    </h3>
+                    <p>如果公告没有正常显示，可能是由于：</p>
+                    <ul style="padding-left: 20px;">
+                        <li>浏览器缓存了旧版本页面</li>
+                        <li>浏览器扩展程序干扰</li>
+                        <li>浏览器版本过旧</li>
+                    </ul>
+                    <p><strong>请尝试：</strong></p>
+                    <ol style="padding-left: 20px;">
+                        <li>刷新页面（电脑按 <kbd>Ctrl+F5</kbd>，手机下拉刷新）</li>
+                        <li>清除浏览器缓存</li>
+                        <li>更换其他浏览器（如Chrome、Firefox、Edge）</li>
+                    </ol>
+                    <button onclick="location.reload(true)" style="background-color: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+                        <i class="fas fa-sync-alt"></i> 强制刷新页面
+                    </button>
+                </div>
             </div>
         </main>
-        
+
         <footer>
             <p>© 2026 ByeXie's Minecraft服务器</p>
             <div class="footer-info">
@@ -59,9 +84,70 @@
                     <span id="current-date">正在加载日期...</span>
                 </div>
             </div>
+            <div class="cache-tip" style="margin-top: 15px; font-size: 0.8rem; color: #7f8c8d;">
+                <p><small><i class="fas fa-info-circle"></i> 如果遇到显示问题，请尝试强制刷新（Ctrl+F5）</small></p>
+            </div>
         </footer>
     </div>
+
+    <!-- 添加版本戳防止JS缓存问题 -->
+    <script src="script.js?v=20260208"></script>
     
-    <script src="script.js"></script>
+    <!-- 增强的初始化脚本 -->
+    <script>
+        // 额外的初始化检查
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 公告系统初始化开始');
+            
+            // 检查关键元素是否存在
+            if (!document.getElementById('notices-container')) {
+                console.error('❌ 找不到公告容器元素');
+                document.body.innerHTML = '<div style="padding: 40px; text-align: center; color: red;">页面加载错误：找不到公告容器</div>';
+                return;
+            }
+            
+            // 检查script.js是否加载成功
+            setTimeout(function() {
+                if (typeof loadNotices === 'undefined') {
+                    console.error('❌ script.js 文件未正确加载');
+                    document.getElementById('browser-compatibility-alert').style.display = 'block';
+                    document.getElementById('notices-container').innerHTML = `
+                        <div class="loading" style="color: #e74c3c;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>JavaScript文件加载失败</p>
+                            <p style="font-size: 0.9rem;">请检查网络连接或刷新页面</p>
+                        </div>
+                    `;
+                }
+            }, 2000);
+            
+            // 显示加载时间（用于调试）
+            const loadTime = Date.now() - performance.timing.navigationStart;
+            console.log(`⏱️ 页面加载时间: ${loadTime}ms`);
+            
+            // 设置当前日期（备用，防止script.js失败）
+            const currentDate = new Date();
+            const dateStr = currentDate.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('current-date').textContent = dateStr;
+        });
+        
+        // 处理可能的离线情况
+        window.addEventListener('offline', function() {
+            const container = document.getElementById('notices-container');
+            if (container) {
+                container.innerHTML = `
+                    <div class="loading" style="color: #e74c3c;">
+                        <i class="fas fa-wifi-slash"></i>
+                        <p>网络连接已断开</p>
+                        <p style="font-size: 0.9rem;">请检查网络连接后刷新页面</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
 </body>
 </html>
