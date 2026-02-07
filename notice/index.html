@@ -5,284 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ByeXie's MC服务器 | 公告中心</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
-        }
-        
-        body {
-            background-color: #f8f9fa;
-            color: #333;
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            flex: 1;
-        }
-        
-        header {
-            text-align: center;
-            padding: 30px 0;
-            border-bottom: 1px solid #eaeaea;
-            margin-bottom: 40px;
-        }
-        
-        .logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-        
-        .server-info {
-            color: #7f8c8d;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-        
-        .nav-bar {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .nav-link {
-            color: #3498db;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 6px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .nav-link:hover {
-            background-color: #e3f2fd;
-        }
-        
-        .nav-link.active {
-            background-color: #3498db;
-            color: white;
-        }
-        
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-        }
-        
-        .page-title {
-            color: #2c3e50;
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        
-        .page-subtitle {
-            color: #7f8c8d;
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .notice-section {
-            background-color: #fff;
-            border-radius: 12px;
-            padding: 40px;
-            width: 100%;
-            max-width: 900px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .notice-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eaeaea;
-        }
-        
-        .notice-title {
-            color: #2c3e50;
-            font-size: 1.8rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .notice-date {
-            background-color: #3498db;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.95rem;
-            font-weight: 600;
-        }
-        
-        .notice-content {
-            color: #555;
-            font-size: 1.15rem;
-            line-height: 1.8;
-        }
-        
-        .server-address {
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 25px 0;
-            border-left: 4px solid #2ecc71;
-        }
-        
-        .address-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #2c3e50;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-        
-        .address-text {
-            font-family: 'Courier New', monospace;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #2ecc71;
-            padding: 10px 15px;
-            background-color: white;
-            border-radius: 8px;
-            display: inline-block;
-            margin-top: 5px;
-        }
-        
-        .lucky-note {
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
-            color: #856404;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 25px 0;
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-        }
-        
-        .lucky-note i {
-            font-size: 1.5rem;
-            color: #f39c12;
-            flex-shrink: 0;
-        }
-        
-        .back-to-home {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background-color: #3498db;
-            color: white;
-            padding: 14px 28px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            margin-top: 30px;
-        }
-        
-        .back-to-home:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 12px rgba(52, 152, 219, 0.3);
-        }
-        
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            margin-top: 60px;
-            border-top: 1px solid #eaeaea;
-            color: #7f8c8d;
-            font-size: 0.95rem;
-        }
-        
-        .footer-info {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .footer-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        /* 响应式调整 */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .logo {
-                font-size: 2.2rem;
-            }
-            
-            .notice-section {
-                padding: 25px 20px;
-            }
-            
-            .notice-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .nav-bar {
-                gap: 15px;
-            }
-            
-            .address-text {
-                font-size: 1.1rem;
-                word-break: break-all;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
             <h1 class="logo">ByeXie's Minecraft服务器</h1>
-            <p class="server-info">Fabric模组服务器 | 自由建筑</p>
+            <p class="server-info">公告中心</p>
             <div class="nav-bar">
-                <a href="https://byexie.top" class="nav-link">
+                <a href="../index.html" class="nav-link">
                     <i class="fas fa-home"></i>
-                    首页
+                    返回首页
                 </a>
-                <a href="https://byexie.top/notice" class="nav-link active">
-                    <i class="fas fa-newspaper"></i>
-                    公告
-                </a>
-                <a href="https://byexie.top/" class="nav-link">
-                    <i class="fas fa-download"></i>
-                    模组下载
-                </a>
-                <a href="https://byexie.top/about" class="nav-link">
-                    <i class="fas fa-info-circle"></i>
-                    关于服务器
+                <a href="../about/index.html" class="nav-link">
+                    <i class="fas fa-heart"></i>
+                    支持服务器
                 </a>
             </div>
         </header>
@@ -290,97 +27,41 @@
         <main class="main-content">
             <div>
                 <h1 class="page-title">服务器公告</h1>
-                <p class="page-subtitle">了解服务器最新动态、维护通知和版本更新信息</p>
+                <p class="page-subtitle">最新动态与通知</p>
             </div>
             
-            <div class="notice-section">
-                <div class="notice-header">
-                    <h2 class="notice-title">
-                        <i class="fas fa-bullhorn"></i>
-                        服务器复活通知
-                    </h2>
-                    <div class="notice-date">2月6日</div>
-                </div>
-                
-                <div class="notice-content">
-                    <p>服务器复活啦！但是玩家的dat都丢失了。。。</p>
-                    
-                    <p style="margin-top: 15px;">幸好这是建筑服😁</p>
-                    
-                    <div class="server-address">
-                        <div class="address-title">
-                            <i class="fas fa-server"></i>
-                            服务器连接信息
-                        </div>
-                        <p>请使用以下地址连接服务器：</p>
-                        <div class="address-text">simpfun.cn:12766</div>
-                        <p style="margin-top: 10px; color: #666; font-size: 0.95rem;">
-                            <i class="fas fa-info-circle"></i> 请确保您已安装正确的客户端模组（Fabric 1.21.1版本）
-                        </p>
-                    </div>
-                    
-                    <p style="margin-top: 20px; font-weight: 600; color: #2c3e50;">感谢大家的理解与支持，期待在游戏中见到你们！</p>
+            <!-- 公告列表容器 -->
+            <div id="notices-container" class="notices-container">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>正在加载公告...</p>
                 </div>
             </div>
             
-            <a href="./index.html" class="back-to-home">
-                <i class="fas fa-arrow-left"></i>
-                返回首页
-            </a>
+            <!-- 公告类型筛选 -->
+            <div class="filter-container">
+                <button class="filter-btn active" data-filter="all">全部公告</button>
+                <button class="filter-btn" data-filter="通知">通知</button>
+                <button class="filter-btn" data-filter="警告">警告</button>
+                <button class="filter-btn" data-filter="节日庆祝">节日庆祝</button>
+            </div>
         </main>
+        
+        <footer>
+            <p>© 2026 ByeXie's Minecraft服务器</p>
+            <div class="footer-info">
+                <div class="footer-item">
+                    <i class="fas fa-user"></i>
+                    <span>服主：ByeXie</span>
+                </div>
+                <div class="footer-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span id="current-date">正在加载日期...</span>
+                </div>
+            </div>
+        </footer>
     </div>
     
-    <footer>
-        <p>© 2025-2026 ByeXie's Minecraft服务器 保留所有权利</p>
-        <div class="footer-info">
-            <div class="footer-item">
-                <i class="fas fa-user"></i>
-                <span>服主：ByeXie</span>
-            </div>
-            <div class="footer-item">
-                <i class="fas fa-gamepad"></i>
-                <span>版本：Minecraft 1.21.1 Fabric</span>
-            </div>
-            <div class="footer-item">
-                <i class="fas fa-calendar-alt"></i>
-                <span>最后更新：2026年2月6日</span>
-            </div>
-        </div>
-    </footer>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 导航链接交互效果
-            const navLinks = document.querySelectorAll('.nav-link');
-            navLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-            
-            // 服务器地址复制功能
-            const addressText = document.querySelector('.address-text');
-            addressText.addEventListener('click', function() {
-                const textToCopy = this.textContent;
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    const originalText = this.textContent;
-                    this.textContent = '已复制到剪贴板！';
-                    this.style.backgroundColor = '#2ecc71';
-                    this.style.color = 'white';
-                    
-                    setTimeout(() => {
-                        this.textContent = originalText;
-                        this.style.backgroundColor = 'white';
-                        this.style.color = '#2ecc71';
-                    }, 2000);
-                });
-            });
-            
-            // 添加复制提示
-            addressText.style.cursor = 'pointer';
-            addressText.title = '点击复制服务器地址';
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
