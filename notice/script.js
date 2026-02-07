@@ -6,11 +6,7 @@ const CURRENT_DATE_ELEMENT = document.getElementById('current-date');
 // 获取所有JSON文件列表
 async function getNoticeFiles() {
     try {
-        // GitHub Pages上需要特殊处理文件列表
-        // 方法1: 使用GitHub API（推荐）
-        // 方法2: 维护一个索引文件（简单实现）
-        
-        // 这里使用简单方法：维护一个index.json文件
+        // 使用索引文件方法
         const response = await fetch('/notice/json-files/index.json');
         if (!response.ok) {
             throw new Error('无法获取公告列表');
@@ -66,8 +62,43 @@ function createNoticeCard(noticeData) {
         </div>
     `;
     
-    // 添加可复制文本（如果有）
-    if (noticeData.copyableText && noticeData.copyableText.trim()) {
+    // 添加多个可复制文本（如果使用新的copyableItems格式）
+    if (noticeData.copyableItems && Array.isArray(noticeData.copyableItems) && noticeData.copyableItems.length > 0) {
+        noticeData.copyableItems.forEach(item => {
+            const copyableDiv = document.createElement('div');
+            copyableDiv.className = 'copyable-text';
+            
+            // 如果有图标则显示图标
+            const iconHtml = item.icon ? `<i class="fas ${item.icon}" style="margin-right: 8px;"></i>` : '';
+            
+            copyableDiv.innerHTML = `
+                <div style="flex: 1;">
+                    ${item.label ? `<div style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 5px;">${iconHtml}${item.label}</div>` : ''}
+                    <div style="font-family: 'Courier New', monospace; font-size: 1.1rem; font-weight: 600;">${item.text}</div>
+                </div>
+                <i class="fas fa-copy copy-icon" title="点击复制"></i>
+            `;
+            
+            copyableDiv.addEventListener('click', () => {
+                copyToClipboard(item.text);
+                
+                // 显示复制成功反馈
+                const icon = copyableDiv.querySelector('.copy-icon');
+                const originalIcon = icon.className;
+                icon.className = 'fas fa-check copy-icon';
+                icon.style.color = '#2ecc71';
+                
+                setTimeout(() => {
+                    icon.className = originalIcon;
+                    icon.style.color = '';
+                }, 2000);
+            });
+            
+            card.appendChild(copyableDiv);
+        });
+    } 
+    // 向后兼容：处理旧的copyableText字段
+    else if (noticeData.copyableText && noticeData.copyableText.trim()) {
         const copyableDiv = document.createElement('div');
         copyableDiv.className = 'copyable-text';
         copyableDiv.innerHTML = `
