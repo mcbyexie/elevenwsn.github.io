@@ -1,190 +1,477 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>公告系统诊断</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
-        .result { padding: 15px; margin: 10px 0; border-radius: 5px; }
-        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
-        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
-        .loading { background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; }
-        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; }
-        pre { background: white; padding: 10px; overflow: auto; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .subtitle {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .test-result {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        
+        .success {
+            background: rgba(46, 204, 113, 0.2);
+            border-left: 5px solid #2ecc71;
+        }
+        
+        .error {
+            background: rgba(231, 76, 60, 0.2);
+            border-left: 5px solid #e74c3c;
+        }
+        
+        .warning {
+            background: rgba(241, 196, 15, 0.2);
+            border-left: 5px solid #f1c40f;
+        }
+        
+        .status-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .success .status-icon {
+            background: #2ecc71;
+        }
+        
+        .error .status-icon {
+            background: #e74c3c;
+        }
+        
+        .warning .status-icon {
+            background: #f1c40f;
+        }
+        
+        .test-details {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+        
+        button {
+            width: 100%;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .info-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .copy-btn {
+            background: rgba(52, 152, 219, 0.3);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 600px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>📱 公告系统诊断</h1>
-    <p>这个页面将测试所有必要文件是否能正常加载。</p>
-    
-    <div id="status" class="result loading">正在初始化诊断...</div>
-    
-    <div id="fileTests"></div>
-    
-    <h3>当前时间戳：</h3>
-    <pre id="timestamp"></pre>
-    
-    <h3>浏览器信息：</h3>
-    <pre id="browserInfo"></pre>
-    
-    <button onclick="runAllTests()">重新运行测试</button>
-    
+    <div class="container">
+        <header>
+            <h1>📱 公告系统诊断</h1>
+            <p class="subtitle">一键检测所有配置问题</p>
+        </header>
+        
+        <div class="card">
+            <h2 style="margin-bottom: 15px;">🔍 基础检查</h2>
+            <div id="basic-checks"></div>
+        </div>
+        
+        <div class="card">
+            <h2 style="margin-bottom: 15px;">📄 文件检查</h2>
+            <div id="file-checks"></div>
+        </div>
+        
+        <div class="card">
+            <h2 style="margin-bottom: 15px;">⚙️ 系统信息</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">浏览器</div>
+                    <div class="info-value" id="browser-name">检测中...</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">网络状态</div>
+                    <div class="info-value" id="network-status">检测中...</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">JS支持</div>
+                    <div class="info-value" id="js-support">检测中...</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">页面状态</div>
+                    <div class="info-value" id="page-status">检测中...</div>
+                </div>
+            </div>
+        </div>
+        
+        <button onclick="runFullDiagnosis()">
+            🔄 重新诊断
+        </button>
+        
+        <div class="card">
+            <h2 style="margin-bottom: 15px;">💡 解决方案</h2>
+            <div id="solutions">
+                <p>诊断完成后，这里会显示具体解决方案...</p>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const FILE_LIST = [
-            '/notice/json-files/index.json',
-            '/notice/json-files/202602071846.json',
-            '/notice/json-files/202602071516.json', 
-            '/notice/json-files/202602071425.json'
-        ];
-        
-        const statusDiv = document.getElementById('status');
-        const fileTestsDiv = document.getElementById('fileTests');
-        const timestampDiv = document.getElementById('timestamp');
-        const browserInfoDiv = document.getElementById('browserInfo');
-        
-        // 显示基本信息
-        timestampDiv.textContent = new Date().toISOString();
-        browserInfoDiv.textContent = navigator.userAgent;
-        
-        async function runAllTests() {
-            fileTestsDiv.innerHTML = '';
-            statusDiv.className = 'result loading';
-            statusDiv.innerHTML = '正在测试文件加载...';
-            
-            let allPassed = true;
-            
-            // 1. 测试主配置文件 index.json
-            const indexResult = await testFile(FILE_LIST[0], true);
-            fileTestsDiv.innerHTML += indexResult.html;
-            if (!indexResult.passed) allPassed = false;
-            
-            // 2. 测试每个公告JSON文件
-            for (let i = 1; i < FILE_LIST.length; i++) {
-                const result = await testFile(FILE_LIST[i]);
-                fileTestsDiv.innerHTML += result.html;
-                if (!result.passed) allPassed = false;
-            }
-            
-            // 3. 测试 fetch API 是否可用
-            const fetchTest = await testFetchAPI();
-            fileTestsDiv.innerHTML += fetchTest.html;
-            if (!fetchTest.passed) allPassed = false;
-            
-            // 显示最终结果
-            if (allPassed) {
-                statusDiv.className = 'result success';
-                statusDiv.innerHTML = '✅ 所有基础测试通过！问题可能在JavaScript逻辑中。';
-            } else {
-                statusDiv.className = 'result error';
-                statusDiv.innerHTML = '❌ 发现文件加载问题，请查看上方详细报告。';
-            }
+        // 检测浏览器信息
+        function detectBrowser() {
+            const userAgent = navigator.userAgent;
+            if (userAgent.includes("Chrome")) return "Chrome";
+            if (userAgent.includes("Firefox")) return "Firefox";
+            if (userAgent.includes("Safari")) return "Safari";
+            if (userAgent.includes("Edge")) return "Edge";
+            return "其他浏览器";
         }
         
-        async function testFile(url, isIndex = false) {
-            const startTime = Date.now();
+        // 显示测试结果
+        function showResult(containerId, title, status, details = "") {
+            const container = document.getElementById(containerId);
+            const statusMap = {
+                success: { text: "✅ 成功", class: "success", icon: "✓" },
+                error: { text: "❌ 失败", class: "error", icon: "✗" },
+                warning: { text: "⚠️ 警告", class: "warning", icon: "!" }
+            };
             
+            const statusInfo = statusMap[status];
+            
+            const resultHTML = `
+                <div class="test-result ${statusInfo.class}">
+                    <div class="status-icon">${statusInfo.icon}</div>
+                    <div style="flex: 1;">
+                        <strong>${title}</strong>
+                        <div>${statusInfo.text}</div>
+                        ${details ? `<div class="test-details">${details}</div>` : ""}
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML += resultHTML;
+        }
+        
+        // 测试文件访问
+        async function testFileAccess(url, filename) {
             try {
+                const startTime = Date.now();
                 const response = await fetch(url);
                 const elapsed = Date.now() - startTime;
                 
                 if (response.ok) {
                     const text = await response.text();
                     
-                    if (isIndex) {
-                        // 特殊处理index.json
+                    // 检查是否是JSON文件
+                    if (url.endsWith('.json')) {
                         try {
                             const data = JSON.parse(text);
-                            if (data.files && Array.isArray(data.files)) {
-                                return {
-                                    passed: true,
-                                    html: `<div class="result success">
-                                        ✅ <strong>${url}</strong> (${elapsed}ms)<br>
+                            return {
+                                status: "success",
+                                details: `✅ 加载成功 (${elapsed}ms)<br>
                                         状态: ${response.status}<br>
-                                        文件列表: ${JSON.stringify(data.files)}
-                                    </div>`
-                                };
-                            } else {
-                                return {
-                                    passed: false,
-                                    html: `<div class="result error">
-                                        ❌ <strong>${url}</strong><br>
-                                        格式错误：缺少 files 数组
-                                    </div>`
-                                };
-                            }
-                        } catch (e) {
-                            return {
-                                passed: false,
-                                html: `<div class="result error">
-                                    ❌ <strong>${url}</strong><br>
-                                    JSON解析失败：${e.message}
-                                </div>`
-                            };
-                        }
-                    } else {
-                        // 普通JSON文件测试
-                        try {
-                            const data = JSON.parse(text);
-                            return {
-                                passed: true,
-                                html: `<div class="result success">
-                                    ✅ <strong>${url}</strong> (${elapsed}ms)<br>
-                                    状态: ${response.status}<br>
-                                    标题: "${data.title || '无'}"
-                                </div>`
+                                        ${filename === 'index.json' ? 
+                                         `文件数: ${data.files ? data.files.length : 0}<br>
+                                         置顶: ${data.top || '无'}` : 
+                                         `标题: ${data.title || '无'}`}`
                             };
                         } catch (e) {
                             return {
-                                passed: false,
-                                html: `<div class="result error">
-                                    ❌ <strong>${url}</strong><br>
-                                    JSON解析失败：${e.message}
-                                </div>`
+                                status: "error",
+                                details: `JSON解析失败: ${e.message}<br>内容预览: ${text.substring(0, 100)}...`
                             };
                         }
                     }
+                    
+                    return {
+                        status: "success",
+                        details: `✅ 加载成功 (${elapsed}ms)<br>大小: ${text.length} 字符`
+                    };
+                    
                 } else {
                     return {
-                        passed: false,
-                        html: `<div class="result error">
-                            ❌ <strong>${url}</strong><br>
-                            状态: ${response.status} ${response.statusText}
-                        </div>`
+                        status: "error",
+                        details: `❌ 加载失败: ${response.status} ${response.statusText}<br>URL: ${url}`
                     };
                 }
             } catch (error) {
                 return {
-                    passed: false,
-                    html: `<div class="result error">
-                        ❌ <strong>${url}</strong><br>
-                        网络错误: ${error.message}
-                    </div>`
+                    status: "error",
+                    details: `💥 网络错误: ${error.message}<br>URL: ${url}`
                 };
             }
         }
         
-        async function testFetchAPI() {
+        // 完整的诊断流程
+        async function runFullDiagnosis() {
+            console.log("🚀 开始完整诊断...");
+            
+            // 清空之前的检查结果
+            document.getElementById("basic-checks").innerHTML = "";
+            document.getElementById("file-checks").innerHTML = "";
+            document.getElementById("solutions").innerHTML = "";
+            
+            // 1. 基本功能检查
+            showResult("basic-checks", "JavaScript支持", "success", "浏览器完全支持JavaScript");
+            showResult("basic-checks", "Fetch API支持", 
+                window.fetch ? "success" : "error",
+                window.fetch ? "支持现代fetch API" : "浏览器过旧，不支持fetch");
+            showResult("basic-checks", "网络连接", 
+                navigator.onLine ? "success" : "error",
+                navigator.onLine ? "设备已连接网络" : "设备处于离线状态");
+            
+            // 更新系统信息
+            document.getElementById("browser-name").textContent = detectBrowser();
+            document.getElementById("network-status").textContent = navigator.onLine ? "在线" : "离线";
+            document.getElementById("js-support").textContent = window.fetch ? "完全支持" : "部分支持";
+            
+            // 2. 测试关键文件
+            const filesToTest = [
+                { url: '/notice/json-files/index.json', name: 'index.json' },
+                { url: '/notice/json-files/202602071846.json', name: '202602071846.json' },
+                { url: '/notice/json-files/202602071516.json', name: '202602071516.json' },
+                { url: '/notice/json-files/202602071425.json', name: '202602071425.json' },
+                { url: '/notice/script.js?v=20260208', name: 'script.js' },
+                { url: '/notice/style.css', name: 'style.css' },
+                { url: '/notice/index.html', name: 'index.html' }
+            ];
+            
+            let criticalErrors = 0;
+            
+            for (const file of filesToTest) {
+                const result = await testFileAccess(file.url, file.name);
+                showResult("file-checks", file.name, result.status, result.details);
+                
+                if (result.status === "error" && file.name === 'index.json') {
+                    criticalErrors++;
+                }
+            }
+            
+            // 3. 测试公告主页面是否能访问
             try {
-                // 尝试一个简单的fetch请求
-                await fetch('/');
-                return {
-                    passed: true,
-                    html: `<div class="result success">
-                        ✅ Fetch API 可用
-                    </div>`
-                };
+                const mainPage = await fetch('/notice/');
+                if (mainPage.ok) {
+                    showResult("basic-checks", "公告主页访问", "success", "可以正常访问公告主页");
+                } else {
+                    showResult("basic-checks", "公告主页访问", "error", 
+                        `无法访问: ${mainPage.status} ${mainPage.statusText}`);
+                    criticalErrors++;
+                }
             } catch (error) {
-                return {
-                    passed: false,
-                    html: `<div class="result error">
-                        ❌ Fetch API 不可用: ${error.message}
-                    </div>`
-                };
+                showResult("basic-checks", "公告主页访问", "error", `网络错误: ${error.message}`);
+                criticalErrors++;
+            }
+            
+            // 4. 显示解决方案
+            const solutionsDiv = document.getElementById("solutions");
+            
+            if (criticalErrors > 0) {
+                solutionsDiv.innerHTML = `
+                    <div class="test-result error">
+                        <div class="status-icon">✗</div>
+                        <div>
+                            <strong>发现严重问题</strong>
+                            <div>找到 ${criticalErrors} 个关键错误</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h3>🛠️ 请按顺序检查：</h3>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>检查文件路径</strong>：确认json-files目录存在且文件齐全</li>
+                            <li><strong>检查index.json格式</strong>：必须是有效的JSON格式</li>
+                            <li><strong>检查GitHub Pages部署</strong>：文件是否已推送到正确分支</li>
+                            <li><strong>清除浏览器缓存</strong>：强制刷新页面(Ctrl+F5)</li>
+                        </ol>
+                        <button onclick="clearBrowserCache()" style="margin-top: 15px;" class="copy-btn">
+                            🗑️ 模拟清除缓存
+                        </button>
+                    </div>
+                `;
+            } else {
+                solutionsDiv.innerHTML = `
+                    <div class="test-result success">
+                        <div class="status-icon">✓</div>
+                        <div>
+                            <strong>所有检查通过</strong>
+                            <div>文件系统配置正确</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h3>🎯 问题可能出在：</h3>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>JavaScript代码逻辑错误</li>
+                            <li>浏览器扩展干扰</li>
+                            <li>页面加载顺序问题</li>
+                        </ul>
+                        <button onclick="testScriptJs()" style="margin-top: 15px;" class="copy-btn">
+                            🧪 测试script.js执行
+                        </button>
+                    </div>
+                `;
+            }
+            
+            // 更新页面状态
+            document.getElementById("page-status").textContent = criticalErrors > 0 ? "有错误" : "正常";
+        }
+        
+        // 辅助函数
+        function clearBrowserCache() {
+            alert("在手机上清除缓存的步骤：\n1. 打开浏览器设置\n2. 找到'清除浏览数据'\n3. 选择'缓存图片和文件'\n4. 点击清除");
+        }
+        
+        function testScriptJs() {
+            const testCode = `
+                // 测试公告系统核心函数
+                console.log("🧪 开始测试公告系统...");
+                
+                // 测试1：关键变量是否存在
+                console.log("1. NOTICES_CONTAINER:", typeof NOTICES_CONTAINER);
+                console.log("2. JSON_FOLDER:", JSON_FOLDER);
+                console.log("3. loadNotices函数:", typeof loadNotices);
+                console.log("4. getNoticeFiles函数:", typeof getNoticeFiles);
+                
+                // 测试2：尝试直接调用
+                if (typeof getNoticeFiles === 'function') {
+                    console.log("🚀 尝试调用getNoticeFiles...");
+                    getNoticeFiles().then(result => {
+                        console.log("✅ getNoticeFiles结果:", result);
+                    }).catch(error => {
+                        console.error("❌ getNoticeFiles错误:", error);
+                    });
+                }
+            `;
+            
+            try {
+                eval(testCode);
+                alert("测试代码已执行，请查看控制台(如果有)或刷新页面查看结果");
+            } catch (error) {
+                alert("测试失败: " + error.message);
             }
         }
         
-        // 页面加载时自动运行测试
-        setTimeout(runAllTests, 500);
+        // 页面加载时自动运行诊断
+        window.addEventListener('load', function() {
+            setTimeout(runFullDiagnosis, 500);
+        });
+        
+        // 实时更新网络状态
+        window.addEventListener('online', function() {
+            document.getElementById('network-status').textContent = '在线';
+            showResult("basic-checks", "网络状态恢复", "success", "设备重新连接到网络");
+        });
+        
+        window.addEventListener('offline', function() {
+            document.getElementById('network-status').textContent = '离线';
+            showResult("basic-checks", "网络断开", "warning", "设备已断开网络连接");
+        });
     </script>
 </body>
 </html>
