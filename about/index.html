@@ -56,33 +56,11 @@
             width: 100%;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
             text-align: center;
+            position: relative;
         }
         
         .donation-header {
             margin-bottom: 30px;
-            position: relative;
-        }
-        
-        .avatar-container {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 15px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid #eaeaea;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        
-        .avatar-container:hover {
-            border-color: #3498db;
-            transform: scale(1.05);
-        }
-        
-        .avatar {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
         }
         
         .logo {
@@ -166,31 +144,42 @@
             max-width: 500px;
         }
         
-        .qr-placeholder {
-            width: 180px;
-            height: 180px;
-            margin: 15px 0;
-            border: 2px dashed #ddd;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            background-color: #fdfdfd;
-        }
-        
         .wechat-tip {
             background-color: #fff3cd;
             border: 1px solid #ffeaa7;
             color: #856404;
-            padding: 12px 20px;
+            padding: 15px 20px;
             border-radius: 8px;
             margin-top: 20px;
             font-weight: 600;
             max-width: 500px;
             line-height: 1.6;
             font-size: 0.95rem;
+        }
+        
+        .github-link {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            opacity: 0.7;
+        }
+        
+        .github-link:hover {
+            color: #333;
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+        
+        .github-icon {
+            font-size: 1.5rem;
+            color: #333;
         }
         
         footer {
@@ -230,11 +219,6 @@
                 font-size: 1.5rem;
             }
             
-            .avatar-container {
-                width: 50px;
-                height: 50px;
-            }
-            
             .donation-method {
                 padding: 25px 15px;
             }
@@ -243,40 +227,46 @@
                 font-size: 1.3rem;
             }
             
-            .qr-placeholder {
-                width: 150px;
-                height: 150px;
+            .github-link {
+                position: static;
+                margin-top: 20px;
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="https://www.byexie.top/" class="back-to-home">
+        <a href="../index.html" class="back-to-home">
             <i class="fas fa-arrow-left"></i>
             返回首页
         </a>
         
         <div class="donation-card">
+            <a href="https://github.com/mcbyexie/mcbyexie.github.io/tree/mcserver" 
+               target="_blank" 
+               class="github-link"
+               title="查看项目源代码">
+                <i class="fab fa-github github-icon"></i>
+                <span>项目源码</span>
+            </a>
+            
             <div class="donation-header">
-                <a href="https://i.imgs.ovh/2026/02/06/yEEYWg.jpeg" target="_blank" class="avatar-container">
-                    <img src="https://i.imgs.ovh/2026/02/06/yEEYWg.jpeg" alt="服主头像" class="avatar">
-                </a>
                 <h1 class="logo">ByeXie's Minecraft服务器</h1>
-                <p class="server-info">Fabric模组服务器 | 自由建造</p>
+                <p class="server-info"> Minecraft 服务器 | 自由建造！</p>
             </div>
             
             <h2 class="donation-title">
-                支持服务器
+                支持服务器运营
             </h2>
             
             <p class="donation-subtitle">
-                👿
+                byexie.top
             </p>
             
             <div class="commitment-box">
                 <p class="commitment-text">
-                    您捐赠的每一分钱都将花在服务器的运营与维护上。
+                    您捐赠的每一分钱我都会花在服务器的运营与维护上。
                 </p>
             </div>
             
@@ -284,24 +274,31 @@
                 <div class="method-icon">
                     <i class="fab fa-weixin"></i>
                 </div>
-                <h3 class="method-name"></h3>
+                <h3 class="method-name">捐赠方式</h3>
                 <p class="method-desc">
-                    如果您想支持服务器运营，请联系服主。
+                    真求你们了我已经自费了13元了（很多对吗）
                 </p>
-                
-                <div class="qr-placeholder">
-                    <i class="fas fa-qrcode" style="font-size: 2.5rem; margin-bottom: 10px;"></i>
-                    <span>六百六十六</span>
-                </div>
                 
                 <div class="wechat-tip">
                     <i class="fas fa-question-circle"></i>
-                    什么？你还没有服主微信？去交流群里看看吧！
+                    什么？你还没有我微信？
+                </div>
+                
+                <div style="margin-top: 25px; padding: 15px 20px; background-color: #f8f9fa; border-radius: 10px; max-width: 500px;">
+                    <p style="color: #2c3e50; font-weight: 600; margin-bottom: 8px;">
+                        <i class="fas fa-info-circle"></i>
+                        注意事项
+                    </p>
+                    <p style="color: #666; font-size: 0.9rem;">
+                        • 捐赠是自愿行为<br>
+                        • 所有捐赠将用于服务器运营<br>
+                        • 感谢您对服务器的支持
+                    </p>
                 </div>
             </div>
             
             <footer>
-                <p>© 2023-2026 ByeXie's Minecraft服务器</p>
+                <p>© 2026 ByeXie's Minecraft服务器</p>
                 <div class="footer-info">
                     <div class="footer-item">
                         <i class="fas fa-user"></i>
@@ -309,7 +306,7 @@
                     </div>
                     <div class="footer-item">
                         <i class="fas fa-calendar-alt"></i>
-                        <span>2026年2月6日</span>
+                        <span>2026年2月7日</span>
                     </div>
                 </div>
             </footer>
@@ -318,19 +315,19 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 头像点击效果
-            const avatarContainer = document.querySelector('.avatar-container');
-            avatarContainer.addEventListener('click', function() {
-                this.style.transform = 'scale(0.95)';
+            // 返回首页按钮动画
+            const backButton = document.querySelector('.back-to-home');
+            backButton.addEventListener('click', function(e) {
+                this.style.transform = 'scale(0.98)';
                 setTimeout(() => {
                     this.style.transform = '';
                 }, 200);
             });
             
-            // 返回首页按钮动画
-            const backButton = document.querySelector('.back-to-home');
-            backButton.addEventListener('click', function(e) {
-                this.style.transform = 'scale(0.98)';
+            // GitHub链接动画
+            const githubLink = document.querySelector('.github-link');
+            githubLink.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
                 setTimeout(() => {
                     this.style.transform = '';
                 }, 200);
@@ -344,6 +341,15 @@
                     commitmentBox.style.boxShadow = '';
                 }, 800);
             }, 4000);
+            
+            // 捐赠方式提示框交互
+            const wechatTip = document.querySelector('.wechat-tip');
+            wechatTip.addEventListener('click', function() {
+                this.style.backgroundColor = '#ffeaa7';
+                setTimeout(() => {
+                    this.style.backgroundColor = '#fff3cd';
+                }, 300);
+            });
         });
     </script>
 </body>
