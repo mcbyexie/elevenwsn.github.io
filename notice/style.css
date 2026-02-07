@@ -321,3 +321,67 @@ footer {
     flex-shrink: 0;
     margin-left: 15px;
 }
+/* 置顶公告样式 */
+.top-notice {
+    border: 2px solid #f39c12 !important;
+    box-shadow: 0 0 15px rgba(243, 156, 18, 0.2) !important;
+    position: relative;
+}
+
+.top-notice::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    height: 4px;
+    background: linear-gradient(90deg, #f39c12, #f1c40f, #f39c12);
+    border-radius: 12px 12px 0 0;
+}
+
+.top-badge {
+    background-color: #f39c12;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 10px;
+}
+
+.top-badge i {
+    font-size: 0.7rem;
+}
+
+/* 置顶公告的筛选按钮样式 */
+.filter-container {
+    position: relative;
+}
+
+.has-top-notice::after {
+    content: '有置顶公告';
+    position: absolute;
+    top: -8px;
+    right: 10px;
+    background-color: #f39c12;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .top-badge {
+        font-size: 0.7rem;
+        padding: 3px 8px;
+    }
+    
+    .top-notice {
+        border-width: 1px !important;
+    }
+}
