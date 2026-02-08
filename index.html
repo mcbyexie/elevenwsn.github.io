@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ByeXie's MC服务器 | Fabric 1.21.1 模组下载</title>
+    <title>ByeXie's MC服务器 | Fabric 1.21.1.1 纯净服</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -97,26 +97,48 @@
             line-height: 1.7;
         }
         
+        .top-notice-content {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .top-notice-content p {
+            margin-bottom: 15px;
+        }
+        
+        .top-notice-date {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
         .more-notice {
             display: inline-flex;
             align-items: center;
             gap: 8px;
             margin-top: 20px;
             padding: 10px 20px;
-            background-color: #f8f9fa;
+            background-color: #3498db;
+            color: white;
             border-radius: 8px;
-            color: #3498db;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
         }
         
         .more-notice:hover {
-            background-color: #e3f2fd;
+            background-color: #2980b9;
             transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(52, 152, 219, 0.3);
         }
         
-        .download-section {
+        .server-address-section {
             background-color: #fff;
             border-radius: 12px;
             padding: 40px;
@@ -138,158 +160,53 @@
             font-size: 1.05rem;
         }
         
-        .download-card {
-            background-color: #f8f9fa;
+        .server-address-card {
+            background-color: #e8f6f3;
             border-radius: 10px;
-            padding: 25px;
-            margin: 20px auto;
-            max-width: 700px;
-            border: 1px solid #eaeaea;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .download-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-        }
-        
-        .mod-info {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .mod-icon {
-            background-color: #3498db;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-        }
-        
-        .mod-name {
-            font-size: 1.4rem;
-            color: #2c3e50;
-            font-weight: 600;
-        }
-        
-        .mod-desc {
-            color: #666;
-            margin-bottom: 15px;
-            max-width: 600px;
-        }
-        
-        .password-note {
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
-            color: #856404;
-            padding: 12px 20px;
-            border-radius: 8px;
-            margin: 15px 0;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background-color: #3498db;
-            color: white;
-            padding: 14px 32px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        
-        .btn:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 12px rgba(52, 152, 219, 0.3);
-        }
-        
-        .btn i {
-            font-size: 1.2rem;
-        }
-        
-        .mods-list {
-            background-color: #fff;
-            border-radius: 12px;
             padding: 30px;
-            width: 100%;
-            max-width: 900px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            margin-top: 10px;
+            margin: 30px auto;
+            max-width: 600px;
+            border-left: 4px solid #2ecc71;
         }
         
-        .mods-list h3 {
-            color: #2c3e50;
-            font-size: 1.6rem;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .mods-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 15px;
-        }
-        
-        .mod-item {
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .mod-item:hover {
-            transform: translateY(-5px);
-        }
-        
-        .mod-icon-small {
-            background-color: #3498db;
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        .address-title {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-        
-        .mod-item-name {
-            font-size: 1.2rem;
+            gap: 10px;
             color: #2c3e50;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
         }
         
-        .mod-item-desc {
+        .address-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2ecc71;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 10px 0;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .address-text:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.2);
+        }
+        
+        .address-hint {
             color: #666;
             font-size: 0.95rem;
-            line-height: 1.5;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         
         .donation-section {
@@ -300,17 +217,7 @@
             max-width: 900px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             text-align: center;
-            margin-top: 10px;
-        }
-        
-        .donation-section h3 {
-            color: #2c3e50;
-            font-size: 1.6rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            margin-top: 20px;
         }
         
         .donation-text {
@@ -375,16 +282,13 @@
                 font-size: 2.2rem;
             }
             
-            .alert-box, .download-section, .mods-list, .donation-section {
+            .alert-box, .server-address-section, .donation-section {
                 padding: 25px 20px;
             }
             
-            .download-card {
-                padding: 20px;
-            }
-            
-            .mods-grid {
-                grid-template-columns: 1fr;
+            .address-text {
+                font-size: 1.5rem;
+                padding: 12px;
             }
         }
     </style>
@@ -393,107 +297,54 @@
     <div class="container">
         <header>
             <h1 class="logo">ByeXie's Minecraft服务器</h1>
-            <p class="server-info">Fabric模组服务器 | 自由建造！</p>
-            <div class="version-badge">当前版本：1.21.1 Fabric</div>
+            <p class="server-info">纯净 Minecraft 服务器 | 自由建造！</p>
+            <div class="version-badge">当前版本：1.21.1.1 Fabric</div>
         </header>
         
         <main class="main-content">
             <div class="alert-box">
                 <h2 class="alert-title">
                     <i class="fas fa-exclamation-circle"></i>
-                    重要通知（请点击看更多公告里面有紧急的通知）
+                    重要通知
                 </h2>
                 <p class="alert-text">
-                    服务器已更新至 <strong>Minecraft 1.21.1 Fabric</strong> 版本。为了确保您能正常进入服务器游戏，请务必下载并安装最新版本的客户端模组。如果您已安装旧版本模组，请先删除旧模组再安装新版本。
+                    这里是服务器的最新公告，我们会及时更新服务器状态和重要信息。
                 </p>
+                
+                <!-- 动态加载的置顶公告内容 -->
+                <div id="top-notice-container">
+                    <div class="loading-notice">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>正在加载最新公告...</p>
+                    </div>
+                </div>
+                
                 <a href="/notice/index.html" target="_blank" class="more-notice">
                     <i class="fas fa-newspaper"></i>
                     查看更多公告
                 </a>
             </div>
             
-            <div class="download-section">
-                <h2 class="section-title">模组下载</h2>
-                <p class="section-subtitle">请下载并安装以下模组包以进入服务器</p>
+            <div class="server-address-section">
+                <h2 class="section-title">服务器连接</h2>
+                <p class="section-subtitle">纯净 Minecraft 1.21.1.1 服务器 | 无需任何模组</p>
                 
-                <div class="download-card">
-                    <div class="mod-info">
-                        <div class="mod-icon">
-                            <i class="fas fa-download"></i>
-                        </div>
-                        <h3 class="mod-name">Fabric 1.21.1 客户端模组包</h3>
-                        <p class="mod-desc">
-                            此模组包包含服务器所需的所有客户端模组，确保与服务器完全兼容。下载后请将文件放入 Minecraft 的 "mods" 文件夹中。
-                        </p>
-                        
-                        <div class="password-note">
-                            <i class="fas fa-key"></i>
-                            <span>提取密码：<strong>75d0</strong></span>
-                        </div>
-                        
-                        <a href="https://tykevin.lanzoue.com/b00wnd62pi" target="_blank" class="btn">
-                            <i class="fas fa-external-link-alt"></i>
-                            前往蓝奏云下载页面
-                        </a>
-                        
-                        <p style="margin-top: 15px; color: #7f8c8d; font-size: 0.95rem;">
-                            <i class="fas fa-info-circle"></i> 点击上方按钮将跳转到蓝奏云下载页面，输入密码后即可下载
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="mods-list">
-                    <h3><i class="fas fa-list-ul"></i> 模组列表</h3>
-                    <p style="color: #666; margin-bottom: 20px;">此模组包包含以下主要模组：</p>
-                    <div class="mods-grid">
-                        <div class="mod-item">
-                            <div class="mod-icon-small">
-                                <i class="fas fa-box-open"></i>
-                            </div>
-                            <h4 class="mod-item-name">JEI物品管理器</h4>
-                            <p class="mod-item-desc">Just Enough Items，查看合成表、物品用途和更多游戏内信息。</p>
-                        </div>
-                        <div class="mod-item">
-                            <div class="mod-icon-small">
-                                <i class="fas fa-cloud"></i>
-                            </div>
-                            <h4 class="mod-item-name">天境 (The Aether)</h4>
-                            <p class="mod-item-desc">添加了天空中的漂浮岛屿维度，包含新生物、方块和物品。（主世界的dat被天境侵蚀了，删不掉。。。）</p>
-                        </div>
-                        <div class="mod-item">
-                            <div class="mod-icon-small">
-                                <i class="fas fa-puzzle-piece"></i>
-                            </div>
-                            <h4 class="mod-item-name">天境支持库</h4>
-                            <p class="mod-item-desc">天境模组所需的前置库，确保天境模组正常运行。</p>
-                        </div>
-                        <div class="mod-item">
-                            <div class="mod-icon-small">
-                                <i class="fas fa-cubes"></i>
-                            </div>
-                            <h4 class="mod-item-name">Fabric API</h4>
-                            <p class="mod-item-desc">Fabric模组加载器的核心API，所有Fabric模组的基础依赖。</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 30px; padding: 20px; background-color: #f8f9fa; border-radius: 10px;">
-                    <h3 style="color: #2c3e50; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                        <i class="fas fa-question-circle"></i> 安装说明
+                <div class="server-address-card">
+                    <h3 class="address-title">
+                        <i class="fas fa-server"></i>
+                        服务器地址
                     </h3>
-                    <ol style="text-align: left; max-width: 600px; margin: 0 auto; color: #555; line-height: 1.8;">
-                        <li>下载模组文件后，打开 Minecraft 游戏文件夹</li>
-                        <li>找到并进入 "mods" 文件夹（如果没有请新建一个）</li>
-                        <li>将下载的模组文件复制到 "mods" 文件夹中</li>
-                        <li>确保您已安装 Fabric Loader for Minecraft 1.21.1</li>
-                        <li>启动游戏，选择 Fabric 1.21.1 版本进入游戏</li>
-                    </ol>
+                    <p>请复制以下地址到 Minecraft 服务器列表中：</p>
+                    <div class="address-text" title="点击复制服务器地址">byexie.top</div>
+                    <p class="address-hint">
+                        <i class="fas fa-info-circle"></i> 请使用 Minecraft 1.21.1.1 版本连接
+                    </p>
                 </div>
                 
                 <div class="donation-section">
-                    <h3><i class="fas fa-heart"></i> 支持我？</h3>
+                    <h3><i class="fas fa-heart"></i> 支持服务器</h3>
                     <p class="donation-text">
-                        如果您喜欢这个服务器并希望支持服主 ByeXie 继续维护和发展服务器，可以考虑捐赠支持。您的每一份支持都将用于服务器升级、维护和购买。
+                        如果您喜欢这个服务器并希望支持服主 ByeXie 继续维护和发展服务器，可以考虑捐赠支持。您的每一份支持都将用于服务器升级、维护和购买更好的网络服务。
                     </p>
                     <a href="/about/index.html" target="_blank" class="donation-btn">
                         <i class="fas fa-gift"></i>
@@ -513,7 +364,7 @@
             </div>
             <div class="footer-item">
                 <i class="fas fa-gamepad"></i>
-                <span>版本：Minecraft 1.21.1 Fabric</span>
+                <span>版本：Minecraft 1.21.1.1 Fabric</span>
             </div>
             <div class="footer-item">
                 <i class="fas fa-calendar-alt"></i>
@@ -523,69 +374,188 @@
     </footer>
     
     <script>
-        // 简单交互效果
+        // 加载置顶公告
+        async function loadTopNotice() {
+            const container = document.getElementById('top-notice-container');
+            
+            try {
+                console.log('开始加载置顶公告...');
+                
+                // 1. 获取 index.json 文件
+                const indexResponse = await fetch('/notice/json-files/index.json');
+                if (!indexResponse.ok) {
+                    throw new Error(`无法加载公告索引: ${indexResponse.status}`);
+                }
+                
+                const indexData = await indexResponse.json();
+                console.log('index.json 内容:', indexData);
+                
+                // 2. 检查是否有置顶公告
+                if (!indexData.top) {
+                    container.innerHTML = `
+                        <div class="top-notice-content">
+                            <p>目前没有置顶公告，所有公告均按时间顺序显示。</p>
+                            <div class="top-notice-date">
+                                <i class="fas fa-calendar"></i>
+                                ${new Date().toLocaleDateString('zh-CN')}
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // 3. 加载置顶公告内容
+                const topFile = indexData.top;
+                const noticeResponse = await fetch(`/notice/json-files/${topFile}`);
+                if (!noticeResponse.ok) {
+                    throw new Error(`无法加载置顶公告: ${noticeResponse.status}`);
+                }
+                
+                const noticeData = await noticeResponse.json();
+                console.log('置顶公告内容:', noticeData);
+                
+                // 4. 显示置顶公告
+                container.innerHTML = `
+                    <div class="top-notice-content">
+                        <h3 style="margin-top: 0; color: #2c3e50;">
+                            <i class="fas fa-thumbtack" style="color: #f39c12;"></i>
+                            ${noticeData.title}
+                        </h3>
+                        <div>${noticeData.content.replace(/\n/g, '<br>')}</div>
+                        <div class="top-notice-date">
+                            <i class="fas fa-calendar"></i>
+                            ${noticeData.date}
+                        </div>
+                    </div>
+                `;
+                
+                // 5. 如果有可复制文本，添加复制功能
+                if (noticeData.copyableItems && Array.isArray(noticeData.copyableItems)) {
+                    noticeData.copyableItems.forEach(item => {
+                        const copyableDiv = document.createElement('div');
+                        copyableDiv.style.cssText = `
+                            background: #e8f6f3;
+                            padding: 12px;
+                            margin-top: 10px;
+                            border-radius: 6px;
+                            border-left: 4px solid #2ecc71;
+                            font-family: 'Courier New', monospace;
+                            cursor: pointer;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        `;
+                        
+                        copyableDiv.innerHTML = `
+                            <div>
+                                <div style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 5px;">
+                                    <i class="${item.icon || 'fas fa-server'}"></i>
+                                    ${item.label || '服务器地址'}
+                                </div>
+                                <div style="font-weight: 600;">${item.text}</div>
+                            </div>
+                            <i class="fas fa-copy" style="color: #7f8c8d;"></i>
+                        `;
+                        
+                        copyableDiv.addEventListener('click', () => {
+                            navigator.clipboard.writeText(item.text).then(() => {
+                                const icon = copyableDiv.querySelector('.fa-copy');
+                                icon.className = 'fas fa-check';
+                                icon.style.color = '#2ecc71';
+                                
+                                setTimeout(() => {
+                                    icon.className = 'fas fa-copy';
+                                    icon.style.color = '#7f8c8d';
+                                }, 2000);
+                            });
+                        });
+                        
+                        container.querySelector('.top-notice-content').appendChild(copyableDiv);
+                    });
+                }
+                
+                console.log('置顶公告加载成功');
+                
+            } catch (error) {
+                console.error('加载置顶公告失败:', error);
+                
+                container.innerHTML = `
+                    <div class="top-notice-content" style="border-left-color: #e74c3c;">
+                        <p style="color: #e74c3c;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            公告加载失败: ${error.message}
+                        </p>
+                        <p>请直接访问<a href="/notice/index.html" style="color: #3498db;">公告页面</a>查看最新公告。</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // 页面加载完成时执行
         document.addEventListener('DOMContentLoaded', function() {
-            const downloadBtn = document.querySelector('.btn');
-            const donationBtn = document.querySelector('.donation-btn');
+            console.log('主页初始化...');
+            
+            // 加载置顶公告
+            loadTopNotice();
+            
+            // 服务器地址复制功能
+            const addressText = document.querySelector('.address-text');
+            if (addressText) {
+                addressText.addEventListener('click', function() {
+                    const textToCopy = this.textContent;
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        const originalText = this.textContent;
+                        this.textContent = '已复制到剪贴板！';
+                        this.style.backgroundColor = '#2ecc71';
+                        this.style.color = 'white';
+                        
+                        setTimeout(() => {
+                            this.textContent = originalText;
+                            this.style.backgroundColor = 'white';
+                            this.style.color = '#2ecc71';
+                        }, 2000);
+                    });
+                });
+            }
+            
+            // 更多公告按钮动画
             const moreNoticeLink = document.querySelector('.more-notice');
-            
-            // 下载按钮点击动画
-            downloadBtn.addEventListener('click', function(e) {
-                this.style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 200);
-                console.log('正在跳转到模组下载页面...');
-            });
-            
-            // 捐赠按钮点击动画
-            donationBtn.addEventListener('click', function(e) {
-                this.style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 200);
-                console.log('正在跳转到捐赠页面...');
-            });
-            
-            // 更多公告链接点击动画
-            moreNoticeLink.addEventListener('click', function(e) {
-                this.style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 200);
-                console.log('正在跳转到公告页面...');
-            });
-            
-            // 页面加载时的简单动画
-            const cards = document.querySelectorAll('.download-card, .alert-box, .mods-list, .donation-section');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                
-                setTimeout(() => {
-                    card.style.transition = 'opacity 0.6s, transform 0.6s';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 200);
-            });
-            
-            // 模组项目悬停效果增强
-            const modItems = document.querySelectorAll('.mod-item');
-            modItems.forEach(item => {
-                item.addEventListener('mouseenter', function() {
-                    this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.1)';
+            if (moreNoticeLink) {
+                moreNoticeLink.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
                 });
-                
-                item.addEventListener('mouseleave', function() {
-                    this.style.boxShadow = 'none';
-                });
-            });
+            }
             
-            // 更新年份显示
-            const currentYear = new Date().getFullYear();
-            const footerText = document.querySelector('footer p');
-            if (footerText.textContent.includes('2023')) {
-                footerText.textContent = footerText.textContent.replace('2023', `2023-${currentYear}`);
+            // 捐赠按钮动画
+            const donationBtn = document.querySelector('.donation-btn');
+            if (donationBtn) {
+                donationBtn.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+            }
+            
+            console.log('主页初始化完成');
+        });
+        
+        // 网络状态检测
+        window.addEventListener('offline', function() {
+            const container = document.getElementById('top-notice-container');
+            if (container && !container.innerHTML.includes('离线')) {
+                container.innerHTML = `
+                    <div class="top-notice-content" style="border-left-color: #f39c12;">
+                        <p style="color: #f39c12;">
+                            <i class="fas fa-wifi-slash"></i>
+                            网络连接已断开，无法加载最新公告
+                        </p>
+                        <p>请检查网络连接后刷新页面。</p>
+                    </div>
+                `;
             }
         });
     </script>
