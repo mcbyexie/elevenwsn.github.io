@@ -12,7 +12,7 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
         }
-        
+
         body {
             background-color: #f8f9fa;
             color: #333;
@@ -21,34 +21,34 @@
             display: flex;
             flex-direction: column;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             flex: 1;
         }
-        
+
         header {
             text-align: center;
             padding: 40px 0;
             border-bottom: 1px solid #eaeaea;
             margin-bottom: 40px;
         }
-        
+
         .logo {
             font-size: 2.8rem;
             font-weight: 700;
             color: #2c3e50;
             margin-bottom: 10px;
         }
-        
+
         .server-info {
             color: #7f8c8d;
             font-size: 1.1rem;
             margin-bottom: 5px;
         }
-        
+
         .version-badge {
             display: inline-block;
             background-color: #3498db;
@@ -60,14 +60,14 @@
             margin-top: 10px;
             letter-spacing: 0.5px;
         }
-        
+
         .main-content {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 40px;
         }
-        
+
         .alert-box {
             background-color: #fff;
             border-radius: 12px;
@@ -77,7 +77,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             border-left: 5px solid #3498db;
         }
-        
+
         .alert-title {
             display: flex;
             align-items: center;
@@ -86,17 +86,17 @@
             color: #2c3e50;
             font-size: 1.5rem;
         }
-        
+
         .alert-title i {
             color: #3498db;
         }
-        
+
         .alert-text {
             color: #555;
             font-size: 1.15rem;
             line-height: 1.7;
         }
-        
+
         .top-notice-content {
             margin: 20px 0;
             padding: 20px;
@@ -104,11 +104,11 @@
             border-radius: 8px;
             border-left: 4px solid #3498db;
         }
-        
+
         .top-notice-content p {
             margin-bottom: 15px;
         }
-        
+
         .top-notice-date {
             color: #7f8c8d;
             font-size: 0.9rem;
@@ -117,7 +117,7 @@
             align-items: center;
             gap: 5px;
         }
-        
+
         .more-notice {
             display: inline-flex;
             align-items: center;
@@ -131,13 +131,13 @@
             font-weight: 600;
             transition: all 0.3s;
         }
-        
+
         .more-notice:hover {
             background-color: #2980b9;
             transform: translateY(-2px);
             box-shadow: 0 5px 12px rgba(52, 152, 219, 0.3);
         }
-        
+
         .server-address-section {
             background-color: #fff;
             border-radius: 12px;
@@ -147,19 +147,19 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             text-align: center;
         }
-        
+
         .section-title {
             color: #2c3e50;
             font-size: 1.8rem;
             margin-bottom: 10px;
         }
-        
+
         .section-subtitle {
             color: #7f8c8d;
             margin-bottom: 30px;
             font-size: 1.05rem;
         }
-        
+
         .server-address-card {
             background-color: #e8f6f3;
             border-radius: 10px;
@@ -168,7 +168,7 @@
             max-width: 600px;
             border-left: 4px solid #2ecc71;
         }
-        
+
         .address-title {
             display: flex;
             align-items: center;
@@ -178,7 +178,7 @@
             font-size: 1.3rem;
             margin-bottom: 20px;
         }
-        
+
         .address-text {
             font-family: 'Courier New', monospace;
             font-size: 1.8rem;
@@ -193,12 +193,12 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        
+
         .address-text:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(46, 204, 113, 0.2);
         }
-        
+
         .address-hint {
             color: #666;
             font-size: 0.95rem;
@@ -208,7 +208,7 @@
             justify-content: center;
             gap: 8px;
         }
-        
+
         .donation-section {
             background-color: #fff;
             border-radius: 12px;
@@ -219,7 +219,7 @@
             text-align: center;
             margin-top: 20px;
         }
-        
+
         .donation-text {
             color: #666;
             margin-bottom: 25px;
@@ -227,7 +227,7 @@
             margin-left: auto;
             margin-right: auto;
         }
-        
+
         .donation-btn {
             display: inline-flex;
             align-items: center;
@@ -242,22 +242,83 @@
             font-size: 1.1rem;
             transition: all 0.3s;
         }
-        
+
         .donation-btn:hover {
             background-color: #c0392b;
             transform: translateY(-2px);
             box-shadow: 0 5px 12px rgba(231, 76, 60, 0.3);
         }
-        
+
+        .friend-link-section {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px 30px;
+            width: 100%;
+            max-width: 900px;
+            margin: 20px auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            border: 1px solid #eaeaea;
+        }
+
+        .friend-link-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .friend-link-icon {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+
+        .friend-link-text {
+            color: #2c3e50;
+            font-size: 0.95rem;
+        }
+
+        .friend-link-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .friend-link-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .friend-link-desc {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+        }
+
+        .friend-link-url {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .friend-link-url:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
         footer {
             text-align: center;
             padding: 30px 0;
-            margin-top: 60px;
+            margin-top: 40px;
             border-top: 1px solid #eaeaea;
             color: #7f8c8d;
             font-size: 0.95rem;
         }
-        
+
         .footer-info {
             display: flex;
             justify-content: center;
@@ -265,30 +326,44 @@
             margin-top: 15px;
             flex-wrap: wrap;
         }
-        
+
         .footer-item {
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        
+
         /* 响应式调整 */
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
             }
-            
+
             .logo {
                 font-size: 2.2rem;
             }
-            
+
             .alert-box, .server-address-section, .donation-section {
                 padding: 25px 20px;
             }
-            
+
             .address-text {
                 font-size: 1.5rem;
                 padding: 12px;
+            }
+
+            .friend-link-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .friend-link-right {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .friend-link-item {
+                align-items: flex-start;
             }
         }
     </style>
@@ -300,7 +375,7 @@
             <p class="server-info">纯净 Minecraft 服务器 | 自由建造！</p>
             <div class="version-badge">当前版本：1.21.1.1 Fabric</div>
         </header>
-        
+
         <main class="main-content">
             <div class="alert-box">
                 <h2 class="alert-title">
@@ -310,7 +385,7 @@
                 <p class="alert-text">
                     这里是服务器的最新公告，我们会及时更新服务器状态和重要信息。
                 </p>
-                
+
                 <!-- 动态加载的置顶公告内容 -->
                 <div id="top-notice-container">
                     <div class="loading-notice">
@@ -318,17 +393,17 @@
                         <p>正在加载最新公告...</p>
                     </div>
                 </div>
-                
+
                 <a href="/notice/index.html" target="_blank" class="more-notice">
                     <i class="fas fa-newspaper"></i>
                     查看更多公告
                 </a>
             </div>
-            
+
             <div class="server-address-section">
                 <h2 class="section-title">服务器连接</h2>
                 <p class="section-subtitle">纯净 Minecraft 1.21.11 服务器 | 无需任何模组</p>
-                
+
                 <div class="server-address-card">
                     <h3 class="address-title">
                         <i class="fas fa-server"></i>
@@ -340,7 +415,7 @@
                         <i class="fas fa-info-circle"></i> 请使用 Minecraft 1.21.1.1 版本连接
                     </p>
                 </div>
-                
+
                 <div class="donation-section">
                     <h3><i class="fas fa-heart"></i> 支持服务器</h3>
                     <p class="donation-text">
@@ -353,43 +428,61 @@
                 </div>
             </div>
         </main>
-    </div>
-    
-    <footer>
-        <p>© 2025-2026 ByeXie's Minecraft服务器 保留所有权利</p>
-        <div class="footer-info">
-            <div class="footer-item">
-                <i class="fas fa-user"></i>
-                <span>服主：ByeXie</span>
+
+        <!-- 友情链接 - 完全按照描述 -->
+        <div class="friend-link-section">
+            <div class="friend-link-left">
+                <i class="fas fa-link friend-link-icon"></i>
+                <span class="friend-link-text">友情链接：</span>
             </div>
-            <div class="footer-item">
-                <i class="fas fa-gamepad"></i>
-                <span>版本：Minecraft 1.21.11 Fabric</span>
-            </div>
-            <div class="footer-item">
-                <i class="fas fa-calendar-alt"></i>
-                <span>更新日期：2026年2月</span>
+            <div class="friend-link-right">
+                <div class="friend-link-item">
+                    <span class="friend-link-desc">另一个mc服务器</span>
+                    <a href="http://zszzz.ct.ws" target="_blank" class="friend-link-url">zszzz.ct.ws</a>
+                </div>
+                <div class="friend-link-item">
+                    <span class="friend-link-desc">作者</span>
+                    <span class="friend-link-url" style="color: #7f8c8d; cursor: default;">ZS_zzz</span>
+                </div>
             </div>
         </div>
-    </footer>
-    
+
+        <footer>
+            <p>© 2025-2026 ByeXie's Minecraft服务器 保留所有权利</p>
+            <div class="footer-info">
+                <div class="footer-item">
+                    <i class="fas fa-user"></i>
+                    <span>服主：ByeXie</span>
+                </div>
+                <div class="footer-item">
+                    <i class="fas fa-gamepad"></i>
+                    <span>版本：Minecraft 1.21.11 Fabric</span>
+                </div>
+                <div class="footer-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>更新日期：2026年2月</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
     <script>
         // 加载置顶公告
         async function loadTopNotice() {
             const container = document.getElementById('top-notice-container');
-            
+
             try {
                 console.log('开始加载置顶公告...');
-                
+
                 // 1. 获取 index.json 文件
                 const indexResponse = await fetch('/notice/json-files/index.json');
                 if (!indexResponse.ok) {
                     throw new Error(`无法加载公告索引: ${indexResponse.status}`);
                 }
-                
+
                 const indexData = await indexResponse.json();
                 console.log('index.json 内容:', indexData);
-                
+
                 // 2. 检查是否有置顶公告
                 if (!indexData.top) {
                     container.innerHTML = `
@@ -403,17 +496,17 @@
                     `;
                     return;
                 }
-                
+
                 // 3. 加载置顶公告内容
                 const topFile = indexData.top;
                 const noticeResponse = await fetch(`/notice/json-files/${topFile}`);
                 if (!noticeResponse.ok) {
                     throw new Error(`无法加载置顶公告: ${noticeResponse.status}`);
                 }
-                
+
                 const noticeData = await noticeResponse.json();
                 console.log('置顶公告内容:', noticeData);
-                
+
                 // 4. 显示置顶公告
                 container.innerHTML = `
                     <div class="top-notice-content">
@@ -428,7 +521,7 @@
                         </div>
                     </div>
                 `;
-                
+
                 // 5. 如果有可复制文本，添加复制功能
                 if (noticeData.copyableItems && Array.isArray(noticeData.copyableItems)) {
                     noticeData.copyableItems.forEach(item => {
@@ -445,7 +538,7 @@
                             justify-content: space-between;
                             align-items: center;
                         `;
-                        
+
                         copyableDiv.innerHTML = `
                             <div>
                                 <div style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 5px;">
@@ -456,29 +549,29 @@
                             </div>
                             <i class="fas fa-copy" style="color: #7f8c8d;"></i>
                         `;
-                        
+
                         copyableDiv.addEventListener('click', () => {
                             navigator.clipboard.writeText(item.text).then(() => {
                                 const icon = copyableDiv.querySelector('.fa-copy');
                                 icon.className = 'fas fa-check';
                                 icon.style.color = '#2ecc71';
-                                
+
                                 setTimeout(() => {
                                     icon.className = 'fas fa-copy';
                                     icon.style.color = '#7f8c8d';
                                 }, 2000);
                             });
                         });
-                        
+
                         container.querySelector('.top-notice-content').appendChild(copyableDiv);
                     });
                 }
-                
+
                 console.log('置顶公告加载成功');
-                
+
             } catch (error) {
                 console.error('加载置顶公告失败:', error);
-                
+
                 container.innerHTML = `
                     <div class="top-notice-content" style="border-left-color: #e74c3c;">
                         <p style="color: #e74c3c;">
@@ -490,14 +583,14 @@
                 `;
             }
         }
-        
+
         // 页面加载完成时执行
         document.addEventListener('DOMContentLoaded', function() {
             console.log('主页初始化...');
-            
+
             // 加载置顶公告
             loadTopNotice();
-            
+
             // 服务器地址复制功能
             const addressText = document.querySelector('.address-text');
             if (addressText) {
@@ -508,7 +601,7 @@
                         this.textContent = '已复制到剪贴板！';
                         this.style.backgroundColor = '#2ecc71';
                         this.style.color = 'white';
-                        
+
                         setTimeout(() => {
                             this.textContent = originalText;
                             this.style.backgroundColor = 'white';
@@ -517,7 +610,7 @@
                     });
                 });
             }
-            
+
             // 更多公告按钮动画
             const moreNoticeLink = document.querySelector('.more-notice');
             if (moreNoticeLink) {
@@ -528,7 +621,7 @@
                     }, 200);
                 });
             }
-            
+
             // 捐赠按钮动画
             const donationBtn = document.querySelector('.donation-btn');
             if (donationBtn) {
@@ -539,10 +632,10 @@
                     }, 200);
                 });
             }
-            
+
             console.log('主页初始化完成');
         });
-        
+
         // 网络状态检测
         window.addEventListener('offline', function() {
             const container = document.getElementById('top-notice-container');
