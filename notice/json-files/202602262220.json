@@ -1,1 +1,8 @@
-1
+{
+  "title": "服务器新增了登陆插件",
+  "date": "2026年2月26日 22:20",
+  "content": "新增登录插件\n•首次进入：输入 /register 密码 确认密码\n•之后进入：输入 /login 密码",
+  "borderColor": "#e74c3c",
+  "type": "通知",
+  "icon": "fa-exclamation-triangle"
+}
