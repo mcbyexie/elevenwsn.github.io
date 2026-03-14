@@ -1,0 +1,18 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:egg"
+    },
+    "title": "彩蛋",
+    "description": "哇，有彩蛋",
+    "background": "minecraft:textures/block/gold_block.png",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": true
+  },
+  "criteria": {
+    "auto_unlock": {
+      "trigger": "minecraft:tick"
+    }
+  }
+}
