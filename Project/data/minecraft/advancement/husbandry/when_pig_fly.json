@@ -1,0 +1,34 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:carrot_on_a_stick"
+    },
+    "title": "当猪飞的时候",
+    "description": "骑着猪从高处掉落",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "fly_pig": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:pig"
+        },
+        "killing_blow": {
+          "damage_type": {
+            "tags": [
+              {
+                "id": "minecraft:is_fall",
+                "expected": true
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "parent": "minecraft:husbandry/root"
+}
