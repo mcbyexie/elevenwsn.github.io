@@ -1,23 +1,43 @@
 {
-  "display":
-  {
-    "icon":
-    {
+  "parent": "minecraft:adventure/voluntary_exile",
+  "criteria": {
+    "raid_started": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "effects": {
+                "minecraft:raid_omen": {
+                  "duration": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
       "id": "minecraft:ominous_bottle"
     },
     "title": "是天灾，还是人祸？",
     "description": "触发袭击",
-    "frame": "task",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
   },
-  "criteria": 
-  {
-    "ate_apple":
-    {
-      "trigger": "minecraft:voluntary_exile",
-    }
+  "requirements": [
+    [
+      "raid_started"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
   },
-  "parent": "minecraft:adventure/root"
+  "sends_telemetry_event": true
 }
