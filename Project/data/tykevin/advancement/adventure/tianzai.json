@@ -1,0 +1,23 @@
+{
+  "display":
+  {
+    "icon":
+    {
+      "id": "minecraft:ominous_bottle"
+    },
+    "title": "是天灾，还是人祸？",
+    "description": "触发袭击",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": 
+  {
+    "ate_apple":
+    {
+      "trigger": "minecraft:voluntary_exile",
+    }
+  },
+  "parent": "minecraft:adventure/root"
+}
