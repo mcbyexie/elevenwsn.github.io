@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:netherite_axe"
+    },
+    "title": "斩尽杀绝",
+    "description": "一次性造成19点伤害",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "massacre": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "damage": {
+          "dealt": {
+            "min": 19
+          }
+        }
+      }
+    }
+  },
+  "rewards": {
+    "commands": [
+      "tellraw @p {\"text\":\"⚔️ 斩尽杀绝！ ⚔️\",\"color\":\"red\",\"bold\":true}",
+      "playsound minecraft:entity.player.levelup player @p",
+      "give @p minecraft:enchanted_golden_apple 1"
+    ]
+  },
+  "parent": "minecraft:adventure/root"
+}
