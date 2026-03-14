@@ -1,0 +1,31 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:cake"
+    },
+    "title": "蛋糕是个谎言",
+    "description": "放置一个蛋糕",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "place_cake": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "item": {
+          "items": "minecraft:cake"
+        }
+      }
+    }
+  },
+  "rewards": {
+    "commands": [
+      "tellraw @p {\"text\":\"蛋糕是个谎言！\",\"color\":\"red\",\"bold\":true}",
+      "playsound minecraft:entity.witch.ambient player @p",
+      "give @p minecraft:cookie 1"
+    ]
+  },
+  "parent": "minecraft:husbandry/plant_seed"
+}
