@@ -1,7 +1,14 @@
 {
   "title": "服务器已更换地址",
   "date": "2026年4月2日 23:44",
-  "content": "服务器由于DNS解析问题，已更换地址\n新地址play.simpfun.cn:11233",
+  "content": "服务器由于DNS解析问题，已更换地址",
+  "copyableItems": [
+    {
+      "label": "服务器新地址",
+      "text": "play.simpfun.cn:11233",
+      "icon": "fa-server"
+    }
+  ],
   "borderColor": "#e74c3c",
   "type": "通知",
   "icon": "fa-exclamation-triangle"
