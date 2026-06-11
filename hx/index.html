@@ -1,0 +1,757 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>混淆工具 · 高性能图片混淆器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --color-primary: #f97316;
+            --color-primary-dark: #ea580c;
+            --app-surface: #ffffff;
+            --app-surface-soft: #f8fafc;
+            --app-border: #e2e8f0;
+            --app-text: #1e293b;
+            --app-text-muted: #64748b;
+            --app-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+            --transition-smooth: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            --transition-bounce: all 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+
+        body.dark {
+            --color-primary: #fb923c;
+            --color-primary-dark: #f97316;
+            --app-surface: #1e293b;
+            --app-surface-soft: #0f172a;
+            --app-border: #334155;
+            --app-text: #f1f5f9;
+            --app-text-muted: #94a3b8;
+            --app-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            background: linear-gradient(135deg, #fef9e8 0%, #fff4e0 100%);
+            color: var(--app-text);
+            font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            padding: 20px 16px;
+            transition: background 0.3s ease;
+        }
+
+        body.dark {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        .container {
+            max-width: 880px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+            animation: fadeSlideDown 0.5s ease;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--app-surface);
+            padding: 10px 24px;
+            border-radius: 80px;
+            box-shadow: var(--app-shadow);
+            border: 1px solid var(--app-border);
+            color: var(--color-primary);
+            transition: var(--transition-bounce);
+        }
+        .logo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+        }
+
+        .theme-toggle {
+            background: var(--app-surface);
+            border: 1px solid var(--app-border);
+            border-radius: 60px;
+            padding: 8px 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--app-text);
+            transition: var(--transition-smooth);
+            box-shadow: var(--app-shadow);
+        }
+        .theme-toggle:hover {
+            background: var(--app-surface-soft);
+            border-color: var(--color-primary);
+            transform: scale(1.02);
+        }
+        .theme-toggle:active {
+            transform: scale(0.96);
+        }
+
+        .subhead {
+            text-align: center;
+            margin-top: -8px;
+            margin-bottom: 20px;
+            color: var(--app-text-muted);
+            font-size: 0.9rem;
+            animation: fadeSlideUp 0.5s ease;
+        }
+
+        .tool-card {
+            background: var(--app-surface);
+            border: 1px solid var(--app-border);
+            border-radius: 32px;
+            box-shadow: var(--app-shadow);
+            padding: 24px 22px;
+            transition: var(--transition-smooth);
+            animation: cardGlow 0.6s ease-out;
+        }
+        .tool-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.15);
+        }
+
+        .tip-box {
+            background: #fef9e3;
+            border-left: 4px solid var(--color-primary);
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            color: #92400e;
+            margin-bottom: 24px;
+            transition: all 0.2s;
+            animation: fadeSlideRight 0.4s ease;
+        }
+        body.dark .tip-box {
+            background: #42200630;
+            border-left-color: var(--color-primary);
+            color: #fcd34d;
+        }
+
+        .image-area {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        .image-placeholder {
+            width: 100%;
+            min-height: 280px;
+            border: 2px dashed var(--app-border);
+            border-radius: 24px;
+            background: var(--app-surface-soft);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            padding: 32px 20px;
+            color: var(--app-text-muted);
+        }
+        .image-placeholder:hover {
+            border-color: var(--color-primary);
+            background: color-mix(in srgb, var(--app-surface-soft) 85%, var(--color-primary) 8%);
+            transform: scale(1.01);
+        }
+        .image-wrapper {
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--app-border);
+            background: var(--app-surface-soft);
+            line-height: 0;
+            display: none;
+            animation: fadeZoomIn 0.4s ease;
+        }
+        .preview-img {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.3s;
+        }
+        .loading-overlay {
+            position: absolute;
+            inset: 0;
+            background: color-mix(in srgb, var(--app-surface) 88%, transparent);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: var(--app-text-muted);
+            backdrop-filter: blur(4px);
+            z-index: 5;
+            animation: fadeIn 0.2s;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--app-border);
+            border-left-color: var(--color-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 24px 0 20px;
+            justify-content: center;
+        }
+        .btn {
+            appearance: none;
+            border: 1px solid var(--app-border);
+            background: var(--app-surface);
+            color: var(--app-text);
+            border-radius: 60px;
+            padding: 10px 22px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+        .btn:active::after {
+            width: 200px;
+            height: 200px;
+            opacity: 0;
+            transition: 0s;
+        }
+        .btn:active {
+            transform: scale(0.96);
+        }
+        .btn-primary {
+            background: var(--color-primary);
+            border-color: var(--color-primary-dark);
+            color: white;
+            box-shadow: 0 2px 6px rgba(249,115,22,0.3);
+        }
+        .btn-primary:hover {
+            filter: brightness(0.94);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(249,115,22,0.4);
+        }
+        .btn-outline {
+            background: var(--app-surface);
+            border-color: var(--app-border);
+        }
+        .btn-outline:hover {
+            background: var(--app-surface-soft);
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            transform: translateY(-2px);
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            filter: none;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: var(--app-surface);
+            color: var(--app-text);
+            padding: 10px 24px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
+            border: 1px solid var(--app-border);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+            pointer-events: none;
+            backdrop-filter: blur(8px);
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        .info-text {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--app-text-muted);
+            margin-top: 20px;
+            border-top: 1px solid var(--app-border);
+            padding-top: 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes fadeSlideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeSlideRight {
+            from { opacity: 0; transform: translateX(-15px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeZoomIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes cardGlow {
+            0% { opacity: 0; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 640px) {
+            .tool-card { padding: 18px; }
+            .btn { padding: 8px 16px; font-size: 0.8rem; }
+            .image-placeholder { min-height: 220px; }
+            .logo { font-size: 1.3rem; padding: 6px 18px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header-area">
+        <div class="logo">
+            <span>🔀</span> 混淆工具
+        </div>
+        <button id="dark-mode-toggle" class="theme-toggle">
+            🌙 深色模式
+        </button>
+    </div>
+    <div class="subhead">
+        基于 Gilbert 空间填充曲线 · 纯前端可逆混淆 · 隐私安全
+    </div>
+
+    <div class="tool-card">
+        <div class="tip-box">
+            💡 提示：多次混淆需多次解混淆才能完全还原；所有操作均在本地完成。
+        </div>
+
+        <div class="image-area" id="image-area">
+            <div class="image-placeholder" id="upload-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 16v-6m0 0-2 2m2-2 2 2M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 9l5-5 5 5" stroke-linecap="round"/>
+                </svg>
+                <p>点击上传图片 (jpg/png/webp)</p>
+                <p style="font-size: 12px;">支持最大约800万像素，过大自动缩放</p>
+            </div>
+            <div class="image-wrapper" id="image-wrapper">
+                <img id="preview-image" class="preview-img" alt="预览">
+            </div>
+            <div id="loading-indicator" class="loading-overlay" style="display: none;">
+                <div class="spinner"></div>
+                <p>处理中，请稍候…</p>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" style="display: none;">
+            <button class="btn btn-outline" id="upload-btn">📁 上传图片</button>
+            <button class="btn btn-primary" id="encrypt-btn">🔀 混淆</button>
+            <button class="btn btn-primary" id="decrypt-btn">🔓 解混淆</button>
+            <button class="btn btn-outline" id="restore-btn">🔄 还原</button>
+            <a id="download-link" class="btn btn-primary" style="display: none;">💾 下载图片</a>
+        </div>
+
+        <div class="info-text">
+            ⚡ 所有处理均在浏览器本地完成，图片不会上传。
+        </div>
+    </div>
+</div>
+
+<div id="toast-message" class="toast">✨ 操作成功</div>
+
+<script>
+    (function(){
+        // ========== 性能优化：Gilbert 曲线缓存 ==========
+        const curveCache = new Map();
+        function getGilbertCurve(width, height) {
+            const key = `${width}x${height}`;
+            if (curveCache.has(key)) return curveCache.get(key);
+            const curve = [];
+            if (width >= height) {
+                generate(0, 0, width, 0, 0, height, curve);
+            } else {
+                generate(0, 0, 0, height, width, 0, curve);
+            }
+            curveCache.set(key, curve);
+            return curve;
+
+            function generate(x, y, dx, dy, tx, ty, result) {
+                const absDx = Math.abs(dx + dy);
+                const absDy = Math.abs(tx + ty);
+                const stepX = Math.sign(dx);
+                const stepY = Math.sign(dy);
+                const stepTx = Math.sign(tx);
+                const stepTy = Math.sign(ty);
+
+                if (absDy === 1) {
+                    for (let i = 0; i < absDx; i++) {
+                        result.push([x, y]);
+                        x += stepX;
+                        y += stepY;
+                    }
+                    return;
+                }
+                if (absDx === 1) {
+                    for (let i = 0; i < absDy; i++) {
+                        result.push([x, y]);
+                        x += stepTx;
+                        y += stepTy;
+                    }
+                    return;
+                }
+
+                let hx = Math.floor(dx / 2);
+                let hy = Math.floor(dy / 2);
+                let tx1 = Math.floor(tx / 2);
+                let ty1 = Math.floor(ty / 2);
+                const sumH = Math.abs(hx + hy);
+                const sumT = Math.abs(tx1 + ty1);
+
+                if (2 * absDx > 3 * absDy) {
+                    if (sumH % 2 && absDx > 2) {
+                        hx += stepX;
+                        hy += stepY;
+                    }
+                    generate(x, y, hx, hy, tx, ty, result);
+                    generate(x + hx, y + hy, dx - hx, dy - hy, tx, ty, result);
+                } else {
+                    if (sumT % 2 && absDy > 2) {
+                        tx1 += stepTx;
+                        ty1 += stepTy;
+                    }
+                    generate(x, y, tx1, ty1, hx, hy, result);
+                    generate(x + tx1, y + ty1, dx, dy, tx - tx1, ty - ty1, result);
+                    generate(
+                        x + (dx - stepX) + (tx1 - stepTx),
+                        y + (dy - stepY) + (ty1 - stepTy),
+                        -tx1,
+                        -ty1,
+                        -(dx - hx),
+                        -(dy - hy),
+                        result
+                    );
+                }
+            }
+        }
+
+        // 核心混淆/解混淆（使用缓存的曲线）
+        function processImageData(imageData, mode) {
+            const { width, height, data } = imageData;
+            const totalPixels = width * height;
+            if (totalPixels === 0) return imageData;
+
+            const curve = getGilbertCurve(width, height);
+            const phi = (Math.sqrt(5) - 1) / 2;
+            const offset = Math.round(phi * totalPixels);
+            const shift = mode === 'encrypt' ? offset : totalPixels - offset;
+
+            const newImageData = new ImageData(width, height);
+            const newData = newImageData.data;
+
+            for (let i = 0; i < totalPixels; i++) {
+                const [srcX, srcY] = curve[i];
+                const srcIndex = (srcY * width + srcX) * 4;
+                const targetPos = (i + shift) % totalPixels;
+                const [dstX, dstY] = curve[targetPos];
+                const dstIndex = (dstY * width + dstX) * 4;
+
+                newData[dstIndex] = data[srcIndex];
+                newData[dstIndex + 1] = data[srcIndex + 1];
+                newData[dstIndex + 2] = data[srcIndex + 2];
+                newData[dstIndex + 3] = data[srcIndex + 3];
+            }
+            return newImageData;
+        }
+
+        // ========== DOM 元素 ==========
+        const fileInput = document.getElementById('file-input');
+        const uploadBtn = document.getElementById('upload-btn');
+        const placeholder = document.getElementById('upload-placeholder');
+        const imageWrapper = document.getElementById('image-wrapper');
+        const previewImg = document.getElementById('preview-image');
+        const loadingDiv = document.getElementById('loading-indicator');
+        const encryptBtn = document.getElementById('encrypt-btn');
+        const decryptBtn = document.getElementById('decrypt-btn');
+        const restoreBtn = document.getElementById('restore-btn');
+        const downloadLink = document.getElementById('download-link');
+
+        let originalImageData = null;
+        let currentImageData = null;
+        let currentBlobUrl = null;
+
+        const MAX_PIXELS = 8_000_000;
+        const MAX_SIDE = 4000;
+
+        // Toast 反馈
+        const toastEl = document.getElementById('toast-message');
+        let toastTimeout = null;
+        function showToast(message, isError = false) {
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastEl.textContent = message;
+            toastEl.style.background = isError ? '#f44336' : 'var(--app-surface)';
+            toastEl.style.color = isError ? 'white' : 'var(--app-text)';
+            toastEl.classList.add('show');
+            toastTimeout = setTimeout(() => toastEl.classList.remove('show'), 2000);
+        }
+
+        // 全局 loading 控制 + 按钮文字临时变化
+        let isProcessing = false;
+        function setProcessing(processing, activeBtn = null) {
+            if (processing === isProcessing) return;
+            isProcessing = processing;
+            const btns = [encryptBtn, decryptBtn, restoreBtn, uploadBtn];
+            btns.forEach(btn => { if (btn) btn.disabled = processing; });
+            if (downloadLink) downloadLink.style.pointerEvents = processing ? 'none' : '';
+            if (processing) {
+                loadingDiv.style.display = 'flex';
+                if (activeBtn) {
+                    const originalText = activeBtn.innerHTML;
+                    activeBtn.setAttribute('data-original', originalText);
+                    activeBtn.innerHTML = '⏳ 处理中...';
+                }
+            } else {
+                loadingDiv.style.display = 'none';
+                if (activeBtn && activeBtn.hasAttribute('data-original')) {
+                    activeBtn.innerHTML = activeBtn.getAttribute('data-original');
+                    activeBtn.removeAttribute('data-original');
+                }
+            }
+        }
+
+        function revokeCurrentUrl() {
+            if (currentBlobUrl && currentBlobUrl.startsWith('blob:')) {
+                URL.revokeObjectURL(currentBlobUrl);
+                currentBlobUrl = null;
+            }
+        }
+
+        async function updateDisplayFromImageData() {
+            if (!currentImageData) return;
+            setProcessing(true);
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = currentImageData.width;
+                canvas.height = currentImageData.height;
+                const ctx = canvas.getContext('2d');
+                ctx.putImageData(currentImageData, 0, 0);
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.95));
+                if (!blob) throw new Error('生成失败');
+                revokeCurrentUrl();
+                const url = URL.createObjectURL(blob);
+                currentBlobUrl = url;
+                previewImg.src = url;
+                imageWrapper.style.display = 'block';
+                placeholder.style.display = 'none';
+                downloadLink.style.display = 'inline-flex';
+                downloadLink.href = url;
+                downloadLink.download = `confused_${Date.now()}.jpg`;
+                showToast('✅ 处理完成', false);
+            } catch (err) {
+                console.error(err);
+                showToast('❌ 图片处理失败', true);
+            } finally {
+                setProcessing(false);
+            }
+        }
+
+        function setCurrentImageData(imageData, isOriginal = false) {
+            currentImageData = imageData;
+            if (isOriginal) originalImageData = imageData;
+            updateDisplayFromImageData();
+        }
+
+        async function processUploadedFile(file) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                const url = URL.createObjectURL(file);
+                img.onload = () => {
+                    URL.revokeObjectURL(url);
+                    let width = img.width, height = img.height;
+                    const pixels = width * height;
+                    if (pixels > MAX_PIXELS || width > MAX_SIDE || height > MAX_SIDE) {
+                        const scale = Math.min(Math.sqrt(MAX_PIXELS / pixels), MAX_SIDE / width, MAX_SIDE / height, 1);
+                        width = Math.max(1, Math.round(width * scale));
+                        height = Math.max(1, Math.round(height * scale));
+                    }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    canvas.toBlob(blob => {
+                        if (!blob) reject('生成blob失败');
+                        else resolve({ blob, imageData: ctx.getImageData(0, 0, width, height) });
+                    }, 'image/jpeg', 0.95);
+                };
+                img.onerror = () => { URL.revokeObjectURL(url); reject('图片加载失败'); };
+                img.src = url;
+            });
+        }
+
+        async function handleFile(file) {
+            if (!file) return;
+            setProcessing(true);
+            try {
+                const { imageData } = await processUploadedFile(file);
+                originalImageData = imageData;
+                currentImageData = imageData;
+                const canvas = document.createElement('canvas');
+                canvas.width = imageData.width;
+                canvas.height = imageData.height;
+                const ctx = canvas.getContext('2d');
+                ctx.putImageData(imageData, 0, 0);
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.95));
+                revokeCurrentUrl();
+                const url = URL.createObjectURL(blob);
+                currentBlobUrl = url;
+                previewImg.src = url;
+                imageWrapper.style.display = 'block';
+                placeholder.style.display = 'none';
+                downloadLink.style.display = 'inline-flex';
+                downloadLink.href = url;
+                downloadLink.download = `confused_${Date.now()}.jpg`;
+                showToast('📸 图片已上传', false);
+            } catch (err) {
+                console.error(err);
+                showToast('❌ 上传失败，请重试', true);
+            } finally {
+                setProcessing(false);
+            }
+        }
+
+        async function applyTransform(mode, btnElement) {
+            if (!currentImageData) {
+                showToast('请先上传图片', true);
+                return;
+            }
+            if (isProcessing) return;
+            setProcessing(true, btnElement);
+            try {
+                // 使用 setTimeout 让 UI 有机会更新按钮文字
+                await new Promise(resolve => setTimeout(resolve, 10));
+                const newImageData = processImageData(currentImageData, mode);
+                currentImageData = newImageData;
+                await updateDisplayFromImageData();
+                showToast(mode === 'encrypt' ? '🔀 混淆成功' : '🔓 解混淆成功', false);
+            } catch (err) {
+                console.error(err);
+                showToast('❌ 操作失败', true);
+            } finally {
+                setProcessing(false, btnElement);
+            }
+        }
+
+        async function restoreOriginalWithFeedback() {
+            if (!originalImageData) {
+                showToast('没有可还原的原始图片', true);
+                return;
+            }
+            if (isProcessing) return;
+            setProcessing(true, restoreBtn);
+            try {
+                await new Promise(resolve => setTimeout(resolve, 10));
+                const restored = new ImageData(originalImageData.width, originalImageData.height);
+                restored.data.set(originalImageData.data);
+                currentImageData = restored;
+                await updateDisplayFromImageData();
+                showToast('🔄 已还原到原始图片', false);
+            } catch (err) {
+                showToast('还原失败', true);
+            } finally {
+                setProcessing(false, restoreBtn);
+            }
+        }
+
+        // 事件绑定 + 按钮执行中提示
+        uploadBtn.addEventListener('click', () => fileInput.click());
+        placeholder.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) handleFile(e.target.files[0]);
+            fileInput.value = '';
+        });
+        encryptBtn.addEventListener('click', () => applyTransform('encrypt', encryptBtn));
+        decryptBtn.addEventListener('click', () => applyTransform('decrypt', decryptBtn));
+        restoreBtn.addEventListener('click', restoreOriginalWithFeedback);
+        downloadLink.addEventListener('click', (e) => {
+            if (!downloadLink.href || downloadLink.href === '#') {
+                e.preventDefault();
+                showToast('无可下载的图片', true);
+            } else {
+                showToast('💾 下载已开始', false);
+            }
+        });
+
+        // 深色模式切换
+        const darkToggle = document.getElementById('dark-mode-toggle');
+        const setTheme = (isDark) => {
+            if (isDark) {
+                document.body.classList.add('dark');
+                darkToggle.innerHTML = '☀️ 浅色模式';
+            } else {
+                document.body.classList.remove('dark');
+                darkToggle.innerHTML = '🌙 深色模式';
+            }
+            localStorage.setItem('xfq_theme', isDark ? 'dark' : 'light');
+        };
+        const savedTheme = localStorage.getItem('xfq_theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setTheme(savedTheme === 'dark' || (!savedTheme && prefersDark));
+        darkToggle.addEventListener('click', () => setTheme(!document.body.classList.contains('dark')));
+
+        window.addEventListener('beforeunload', () => {
+            if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+        });
+    })();
+</script>
+</body>
+</html>
