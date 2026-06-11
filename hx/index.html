@@ -16,25 +16,30 @@
         :root {
             --color-primary: #f97316;
             --color-primary-dark: #ea580c;
+            --color-primary-light: #ffedd5;
             --app-surface: #ffffff;
             --app-surface-soft: #f8fafc;
             --app-border: #e2e8f0;
             --app-text: #1e293b;
             --app-text-muted: #64748b;
             --app-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 20px 25px -12px rgba(0, 0, 0, 0.15);
             --transition-smooth: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             --transition-bounce: all 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
+            --transition-spring: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
         }
 
         body.dark {
             --color-primary: #fb923c;
             --color-primary-dark: #f97316;
+            --color-primary-light: #3b2a1f;
             --app-surface: #1e293b;
             --app-surface-soft: #0f172a;
             --app-border: #334155;
             --app-text: #f1f5f9;
             --app-text-muted: #94a3b8;
             --app-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 25px -12px rgba(0, 0, 0, 0.4);
         }
 
         body {
@@ -44,16 +49,33 @@
             min-height: 100vh;
             padding: 20px 16px;
             transition: background 0.3s ease;
+            position: relative;
         }
 
         body.dark {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         }
 
+        .bg-glow {
+            position: fixed;
+            top: 20%;
+            left: -20%;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(249,115,22,0.08) 0%, rgba(249,115,22,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        body.dark .bg-glow {
+            background: radial-gradient(circle, rgba(251,146,60,0.12) 0%, rgba(251,146,60,0) 70%);
+        }
+
         .container {
             max-width: 880px;
             margin: 0 auto;
             position: relative;
+            z-index: 2;
         }
 
         .header-area {
@@ -63,7 +85,7 @@
             margin-bottom: 28px;
             flex-wrap: wrap;
             gap: 12px;
-            animation: fadeSlideDown 0.5s ease;
+            animation: fadeSlideDown 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
 
         .logo {
@@ -79,10 +101,25 @@
             border: 1px solid var(--app-border);
             color: var(--color-primary);
             transition: var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+        }
+        .logo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .logo:hover::before {
+            left: 100%;
         }
         .logo:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
         }
 
         .theme-toggle {
@@ -103,7 +140,8 @@
         .theme-toggle:hover {
             background: var(--app-surface-soft);
             border-color: var(--color-primary);
-            transform: scale(1.02);
+            transform: scale(1.02) translateY(-1px);
+            box-shadow: var(--shadow-lg);
         }
         .theme-toggle:active {
             transform: scale(0.96);
@@ -115,7 +153,7 @@
             margin-bottom: 20px;
             color: var(--app-text-muted);
             font-size: 0.9rem;
-            animation: fadeSlideUp 0.5s ease;
+            animation: fadeSlideUp 0.6s 0.1s both;
         }
 
         .tool-card {
@@ -128,8 +166,9 @@
             animation: cardGlow 0.6s ease-out;
         }
         .tool-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.15);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-primary);
         }
 
         .tip-box {
@@ -141,7 +180,7 @@
             color: #92400e;
             margin-bottom: 24px;
             transition: all 0.2s;
-            animation: fadeSlideRight 0.4s ease;
+            animation: fadeSlideRight 0.5s 0.15s both;
         }
         body.dark .tip-box {
             background: #42200630;
@@ -152,6 +191,7 @@
         .image-area {
             position: relative;
             margin-bottom: 24px;
+            min-height: 280px;
         }
         .image-placeholder {
             width: 100%;
@@ -165,7 +205,7 @@
             justify-content: center;
             gap: 12px;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.2);
             padding: 32px 20px;
             color: var(--app-text-muted);
         }
@@ -173,6 +213,7 @@
             border-color: var(--color-primary);
             background: color-mix(in srgb, var(--app-surface-soft) 85%, var(--color-primary) 8%);
             transform: scale(1.01);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
         .image-wrapper {
             border-radius: 24px;
@@ -181,37 +222,44 @@
             background: var(--app-surface-soft);
             line-height: 0;
             display: none;
-            animation: fadeZoomIn 0.4s ease;
+            animation: fadeZoomIn 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
         .preview-img {
             width: 100%;
             max-height: 500px;
             object-fit: contain;
             display: block;
-            transition: transform 0.3s;
+            transition: transform 0.3s ease;
+        }
+        .preview-img:hover {
+            transform: scale(1.02);
         }
         .loading-overlay {
             position: absolute;
-            inset: 0;
-            background: color-mix(in srgb, var(--app-surface) 88%, transparent);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: color-mix(in srgb, var(--app-surface) 92%, transparent);
             border-radius: 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 14px;
             color: var(--app-text-muted);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(6px);
             z-index: 5;
-            animation: fadeIn 0.2s;
+            animation: fadeIn 0.25s ease;
         }
         .spinner {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border: 4px solid var(--app-border);
-            border-left-color: var(--color-primary);
+            border-top-color: var(--color-primary);
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            box-shadow: 0 0 8px rgba(249,115,22,0.3);
         }
 
         .button-group {
@@ -237,6 +285,7 @@
             gap: 8px;
             position: relative;
             overflow: hidden;
+            text-decoration: none;
         }
         .btn::after {
             content: '';
@@ -246,9 +295,10 @@
             width: 0;
             height: 0;
             border-radius: 50%;
-            background: rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.5);
             transform: translate(-50%, -50%);
-            transition: width 0.4s, height 0.4s;
+            transition: width 0.5s, height 0.5s;
+            pointer-events: none;
         }
         .btn:active::after {
             width: 200px;
@@ -263,25 +313,26 @@
             background: var(--color-primary);
             border-color: var(--color-primary-dark);
             color: white;
-            box-shadow: 0 2px 6px rgba(249,115,22,0.3);
+            box-shadow: 0 2px 8px rgba(249,115,22,0.3);
         }
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             filter: brightness(0.94);
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(249,115,22,0.4);
+            box-shadow: 0 8px 16px rgba(249,115,22,0.4);
         }
         .btn-outline {
             background: var(--app-surface);
             border-color: var(--app-border);
         }
-        .btn-outline:hover {
+        .btn-outline:hover:not(:disabled) {
             background: var(--app-surface-soft);
             border-color: var(--color-primary);
             color: var(--color-primary);
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         .btn:disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
             transform: none;
             filter: none;
@@ -294,17 +345,17 @@
             transform: translateX(-50%) scale(0.9);
             background: var(--app-surface);
             color: var(--app-text);
-            padding: 10px 24px;
+            padding: 12px 28px;
             border-radius: 60px;
             font-size: 0.85rem;
             font-weight: 500;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 30px -8px rgba(0,0,0,0.2);
             border: 1px solid var(--app-border);
             z-index: 1000;
             opacity: 0;
-            transition: opacity 0.2s, transform 0.2s;
+            transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
             pointer-events: none;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(12px);
         }
         .toast.show {
             opacity: 1;
@@ -320,43 +371,126 @@
             padding-top: 20px;
         }
 
+        /* 免责协议弹窗 */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.3s ease;
+        }
+        .modal-overlay.open {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-container {
+            background: var(--app-surface);
+            border-radius: 40px;
+            max-width: 420px;
+            width: 90%;
+            padding: 32px 26px;
+            text-align: center;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+            border: 1px solid var(--app-border);
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+        .modal-overlay.open .modal-container {
+            transform: scale(1);
+        }
+        .modal-container h3 {
+            font-size: 1.6rem;
+            margin-bottom: 16px;
+            color: var(--color-primary);
+        }
+        .modal-container p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            color: var(--app-text-muted);
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+        .modal-btn {
+            padding: 10px 22px;
+            border-radius: 60px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-spring);
+            font-size: 0.9rem;
+        }
+        .modal-btn-primary {
+            background: var(--color-primary);
+            color: white;
+            box-shadow: 0 2px 6px rgba(249,115,22,0.3);
+        }
+        .modal-btn-primary:hover {
+            transform: translateY(-2px);
+            filter: brightness(0.94);
+            box-shadow: 0 8px 16px rgba(249,115,22,0.4);
+        }
+        .modal-btn-outline {
+            background: transparent;
+            border: 1px solid var(--app-border);
+            color: var(--app-text);
+        }
+        .modal-btn-outline:hover {
+            background: var(--app-surface-soft);
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            transform: translateY(-2px);
+        }
+
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
         @keyframes fadeSlideDown {
-            from { opacity: 0; transform: translateY(-20px); }
+            from { opacity: 0; transform: translateY(-30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes fadeSlideRight {
-            from { opacity: 0; transform: translateX(-15px); }
+            from { opacity: 0; transform: translateX(-20px); }
             to { opacity: 1; transform: translateX(0); }
         }
         @keyframes fadeZoomIn {
-            from { opacity: 0; transform: scale(0.96); }
+            from { opacity: 0; transform: scale(0.94); }
             to { opacity: 1; transform: scale(1); }
         }
         @keyframes cardGlow {
-            0% { opacity: 0; transform: scale(0.98); }
+            0% { opacity: 0; transform: scale(0.97); }
             100% { opacity: 1; transform: scale(1); }
         }
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; backdrop-filter: blur(0); }
+            to { opacity: 1; backdrop-filter: blur(6px); }
         }
 
         @media (max-width: 640px) {
             .tool-card { padding: 18px; }
-            .btn { padding: 8px 16px; font-size: 0.8rem; }
+            .btn { padding: 8px 14px; font-size: 0.8rem; }
             .image-placeholder { min-height: 220px; }
             .logo { font-size: 1.3rem; padding: 6px 18px; }
         }
     </style>
 </head>
 <body>
+<div class="bg-glow"></div>
 <div class="container">
     <div class="header-area">
         <div class="logo">
@@ -377,7 +511,7 @@
 
         <div class="image-area" id="image-area">
             <div class="image-placeholder" id="upload-placeholder">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path d="M12 16v-6m0 0-2 2m2-2 2 2M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 9l5-5 5 5" stroke-linecap="round"/>
                 </svg>
                 <p>点击上传图片 (jpg/png/webp)</p>
@@ -395,9 +529,10 @@
         <div class="button-group">
             <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" style="display: none;">
             <button class="btn btn-outline" id="upload-btn">📁 上传图片</button>
-            <button class="btn btn-primary" id="encrypt-btn">🔀 混淆</button>
-            <button class="btn btn-primary" id="decrypt-btn">🔓 解混淆</button>
-            <button class="btn btn-outline" id="restore-btn">🔄 还原</button>
+            <button class="btn btn-primary" id="encrypt-btn" disabled>🔀 混淆</button>
+            <button class="btn btn-primary" id="decrypt-btn" disabled>🔓 解混淆</button>
+            <button class="btn btn-outline" id="restore-btn" disabled>🔄 还原</button>
+            <a href="https://zszzz.gt.tc" target="_blank" class="btn btn-outline" id="main-site-btn">🌐 访问主站</a>
             <a id="download-link" class="btn btn-primary" style="display: none;">💾 下载图片</a>
         </div>
 
@@ -407,11 +542,40 @@
     </div>
 </div>
 
+<!-- 免责协议弹窗 -->
+<div id="disclaimer-modal" class="modal-overlay">
+    <div class="modal-container">
+        <h3>📜 免责协议</h3>
+        <p>本工具为纯前端图片混淆器，所有图片处理均在本地完成，不会上传至任何服务器。</p>
+        <p>请遵守相关法律法规，勿用于非法用途。混淆后的图片不具备专业加密强度，请自行判断使用场景。</p>
+        <p style="margin-top: 8px;">本工具源自开源项目，原始网站：</p>
+        <div class="modal-buttons">
+            <button id="agree-btn" class="modal-btn modal-btn-primary">✅ 同意并继续</button>
+            <button id="visit-original-btn" class="modal-btn modal-btn-outline">🔗 访问原站 xiaofanqiehunxiao.com</button>
+        </div>
+    </div>
+</div>
+
 <div id="toast-message" class="toast">✨ 操作成功</div>
 
 <script>
     (function(){
-        // ========== 性能优化：Gilbert 曲线缓存 ==========
+        // ========== 免责协议 ==========
+        const modalDisclaimer = document.getElementById('disclaimer-modal');
+        const agreeBtn = document.getElementById('agree-btn');
+        const visitOriginalBtn = document.getElementById('visit-original-btn');
+        if (!localStorage.getItem('disclaimer_agreed')) {
+            modalDisclaimer.classList.add('open');
+        }
+        agreeBtn.addEventListener('click', () => {
+            localStorage.setItem('disclaimer_agreed', 'true');
+            modalDisclaimer.classList.remove('open');
+        });
+        visitOriginalBtn.addEventListener('click', () => {
+            window.open('https://xiaofanqiehunxiao.com/', '_blank');
+        });
+        
+        // ========== 性能优化：曲线缓存 ==========
         const curveCache = new Map();
         function getGilbertCurve(width, height) {
             const key = `${width}x${height}`;
@@ -484,27 +648,22 @@
             }
         }
 
-        // 核心混淆/解混淆（使用缓存的曲线）
         function processImageData(imageData, mode) {
             const { width, height, data } = imageData;
             const totalPixels = width * height;
             if (totalPixels === 0) return imageData;
-
             const curve = getGilbertCurve(width, height);
             const phi = (Math.sqrt(5) - 1) / 2;
             const offset = Math.round(phi * totalPixels);
             const shift = mode === 'encrypt' ? offset : totalPixels - offset;
-
             const newImageData = new ImageData(width, height);
             const newData = newImageData.data;
-
             for (let i = 0; i < totalPixels; i++) {
                 const [srcX, srcY] = curve[i];
                 const srcIndex = (srcY * width + srcX) * 4;
                 const targetPos = (i + shift) % totalPixels;
                 const [dstX, dstY] = curve[targetPos];
                 const dstIndex = (dstY * width + dstX) * 4;
-
                 newData[dstIndex] = data[srcIndex];
                 newData[dstIndex + 1] = data[srcIndex + 1];
                 newData[dstIndex + 2] = data[srcIndex + 2];
@@ -519,63 +678,76 @@
         const placeholder = document.getElementById('upload-placeholder');
         const imageWrapper = document.getElementById('image-wrapper');
         const previewImg = document.getElementById('preview-image');
-        const loadingDiv = document.getElementById('loading-indicator');
         const encryptBtn = document.getElementById('encrypt-btn');
         const decryptBtn = document.getElementById('decrypt-btn');
         const restoreBtn = document.getElementById('restore-btn');
         const downloadLink = document.getElementById('download-link');
+        const loadingDiv = document.getElementById('loading-indicator');
 
         let originalImageData = null;
         let currentImageData = null;
         let currentBlobUrl = null;
+        let isProcessing = false;
 
         const MAX_PIXELS = 8_000_000;
         const MAX_SIDE = 4000;
 
-        // Toast 反馈
+        // Toast
         const toastEl = document.getElementById('toast-message');
-        let toastTimeout = null;
-        function showToast(message, isError = false) {
-            if (toastTimeout) clearTimeout(toastTimeout);
-            toastEl.textContent = message;
-            toastEl.style.background = isError ? '#f44336' : 'var(--app-surface)';
-            toastEl.style.color = isError ? 'white' : 'var(--app-text)';
+        let toastTimer = null;
+        function showToast(msg, isErr = false) {
+            if (toastTimer) clearTimeout(toastTimer);
+            toastEl.textContent = msg;
+            toastEl.style.background = isErr ? '#f44336' : 'var(--app-surface)';
+            toastEl.style.color = isErr ? 'white' : 'var(--app-text)';
             toastEl.classList.add('show');
-            toastTimeout = setTimeout(() => toastEl.classList.remove('show'), 2000);
+            toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2200);
         }
 
-        // 全局 loading 控制 + 按钮文字临时变化
-        let isProcessing = false;
-        function setProcessing(processing, activeBtn = null) {
-            if (processing === isProcessing) return;
-            isProcessing = processing;
-            const btns = [encryptBtn, decryptBtn, restoreBtn, uploadBtn];
-            btns.forEach(btn => { if (btn) btn.disabled = processing; });
-            if (downloadLink) downloadLink.style.pointerEvents = processing ? 'none' : '';
-            if (processing) {
-                loadingDiv.style.display = 'flex';
-                if (activeBtn) {
-                    const originalText = activeBtn.innerHTML;
-                    activeBtn.setAttribute('data-original', originalText);
-                    activeBtn.innerHTML = '⏳ 处理中...';
-                }
-            } else {
-                loadingDiv.style.display = 'none';
-                if (activeBtn && activeBtn.hasAttribute('data-original')) {
-                    activeBtn.innerHTML = activeBtn.getAttribute('data-original');
-                    activeBtn.removeAttribute('data-original');
-                }
+        // 按钮状态同步（主站按钮始终可用，无需在此处理）
+        function syncButtonsState() {
+            const hasImage = currentImageData !== null;
+            const hasOriginal = originalImageData !== null;
+            encryptBtn.disabled = !hasImage || isProcessing;
+            decryptBtn.disabled = !hasImage || isProcessing;
+            restoreBtn.disabled = !hasOriginal || isProcessing;
+            if (!hasImage && downloadLink.style.display !== 'none') {
+                downloadLink.style.display = 'none';
+            } else if (hasImage && downloadLink.style.display === 'none') {
+                downloadLink.style.display = 'inline-flex';
             }
         }
 
-        function revokeCurrentUrl() {
+        function setProcessing(processing, activeBtn = null) {
+            if (processing === isProcessing) return;
+            isProcessing = processing;
+            syncButtonsState();
+            if (processing) {
+                loadingDiv.style.display = 'flex';
+                if (activeBtn && !activeBtn.disabled) {
+                    const orig = activeBtn.innerHTML;
+                    activeBtn.setAttribute('data-orig', orig);
+                    activeBtn.innerHTML = '<span class="spinner" style="width:18px;height:18px;border-width:2px;margin-right:6px;"></span> 处理中...';
+                    activeBtn.disabled = true;
+                }
+            } else {
+                loadingDiv.style.display = 'none';
+                if (activeBtn && activeBtn.hasAttribute('data-orig')) {
+                    activeBtn.innerHTML = activeBtn.getAttribute('data-orig');
+                    activeBtn.removeAttribute('data-orig');
+                }
+                syncButtonsState();
+            }
+        }
+
+        function revokeUrl() {
             if (currentBlobUrl && currentBlobUrl.startsWith('blob:')) {
                 URL.revokeObjectURL(currentBlobUrl);
                 currentBlobUrl = null;
             }
         }
 
-        async function updateDisplayFromImageData() {
+        async function updateDisplay() {
             if (!currentImageData) return;
             setProcessing(true);
             try {
@@ -584,9 +756,9 @@
                 canvas.height = currentImageData.height;
                 const ctx = canvas.getContext('2d');
                 ctx.putImageData(currentImageData, 0, 0);
-                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.95));
-                if (!blob) throw new Error('生成失败');
-                revokeCurrentUrl();
+                const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.95));
+                if (!blob) throw new Error();
+                revokeUrl();
                 const url = URL.createObjectURL(blob);
                 currentBlobUrl = url;
                 previewImg.src = url;
@@ -595,124 +767,96 @@
                 downloadLink.style.display = 'inline-flex';
                 downloadLink.href = url;
                 downloadLink.download = `confused_${Date.now()}.jpg`;
+                syncButtonsState();
                 showToast('✅ 处理完成', false);
-            } catch (err) {
-                console.error(err);
-                showToast('❌ 图片处理失败', true);
+            } catch (e) {
+                showToast('❌ 图片渲染失败', true);
             } finally {
                 setProcessing(false);
             }
-        }
-
-        function setCurrentImageData(imageData, isOriginal = false) {
-            currentImageData = imageData;
-            if (isOriginal) originalImageData = imageData;
-            updateDisplayFromImageData();
-        }
-
-        async function processUploadedFile(file) {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                const url = URL.createObjectURL(file);
-                img.onload = () => {
-                    URL.revokeObjectURL(url);
-                    let width = img.width, height = img.height;
-                    const pixels = width * height;
-                    if (pixels > MAX_PIXELS || width > MAX_SIDE || height > MAX_SIDE) {
-                        const scale = Math.min(Math.sqrt(MAX_PIXELS / pixels), MAX_SIDE / width, MAX_SIDE / height, 1);
-                        width = Math.max(1, Math.round(width * scale));
-                        height = Math.max(1, Math.round(height * scale));
-                    }
-                    const canvas = document.createElement('canvas');
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-                    canvas.toBlob(blob => {
-                        if (!blob) reject('生成blob失败');
-                        else resolve({ blob, imageData: ctx.getImageData(0, 0, width, height) });
-                    }, 'image/jpeg', 0.95);
-                };
-                img.onerror = () => { URL.revokeObjectURL(url); reject('图片加载失败'); };
-                img.src = url;
-            });
         }
 
         async function handleFile(file) {
             if (!file) return;
             setProcessing(true);
             try {
-                const { imageData } = await processUploadedFile(file);
+                const img = new Image();
+                const url = URL.createObjectURL(file);
+                await new Promise((res, rej) => {
+                    img.onload = res;
+                    img.onerror = rej;
+                    img.src = url;
+                });
+                URL.revokeObjectURL(url);
+                let w = img.width, h = img.height;
+                const pixels = w * h;
+                if (pixels > MAX_PIXELS || w > MAX_SIDE || h > MAX_SIDE) {
+                    const scale = Math.min(Math.sqrt(MAX_PIXELS / pixels), MAX_SIDE / w, MAX_SIDE / h, 1);
+                    w = Math.max(1, Math.round(w * scale));
+                    h = Math.max(1, Math.round(h * scale));
+                }
+                const canvas = document.createElement('canvas');
+                canvas.width = w;
+                canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, w, h);
+                const imageData = ctx.getImageData(0, 0, w, h);
                 originalImageData = imageData;
                 currentImageData = imageData;
-                const canvas = document.createElement('canvas');
-                canvas.width = imageData.width;
-                canvas.height = imageData.height;
-                const ctx = canvas.getContext('2d');
-                ctx.putImageData(imageData, 0, 0);
-                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.95));
-                revokeCurrentUrl();
-                const url = URL.createObjectURL(blob);
-                currentBlobUrl = url;
-                previewImg.src = url;
+                const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.95));
+                revokeUrl();
+                const displayUrl = URL.createObjectURL(blob);
+                currentBlobUrl = displayUrl;
+                previewImg.src = displayUrl;
                 imageWrapper.style.display = 'block';
                 placeholder.style.display = 'none';
                 downloadLink.style.display = 'inline-flex';
-                downloadLink.href = url;
+                downloadLink.href = displayUrl;
                 downloadLink.download = `confused_${Date.now()}.jpg`;
+                syncButtonsState();
                 showToast('📸 图片已上传', false);
             } catch (err) {
-                console.error(err);
                 showToast('❌ 上传失败，请重试', true);
             } finally {
                 setProcessing(false);
             }
         }
 
-        async function applyTransform(mode, btnElement) {
-            if (!currentImageData) {
-                showToast('请先上传图片', true);
-                return;
-            }
+        async function applyTransform(mode, btn) {
+            if (!currentImageData) { showToast('请先上传图片', true); return; }
             if (isProcessing) return;
-            setProcessing(true, btnElement);
+            setProcessing(true, btn);
             try {
-                // 使用 setTimeout 让 UI 有机会更新按钮文字
-                await new Promise(resolve => setTimeout(resolve, 10));
-                const newImageData = processImageData(currentImageData, mode);
-                currentImageData = newImageData;
-                await updateDisplayFromImageData();
+                await new Promise(r => setTimeout(r, 16));
+                const newData = processImageData(currentImageData, mode);
+                currentImageData = newData;
+                await updateDisplay();
                 showToast(mode === 'encrypt' ? '🔀 混淆成功' : '🔓 解混淆成功', false);
-            } catch (err) {
-                console.error(err);
+            } catch (e) {
                 showToast('❌ 操作失败', true);
             } finally {
-                setProcessing(false, btnElement);
+                setProcessing(false, btn);
             }
         }
 
-        async function restoreOriginalWithFeedback() {
-            if (!originalImageData) {
-                showToast('没有可还原的原始图片', true);
-                return;
-            }
+        async function restoreOriginal() {
+            if (!originalImageData) { showToast('没有可还原的原始图片', true); return; }
             if (isProcessing) return;
             setProcessing(true, restoreBtn);
             try {
-                await new Promise(resolve => setTimeout(resolve, 10));
                 const restored = new ImageData(originalImageData.width, originalImageData.height);
                 restored.data.set(originalImageData.data);
                 currentImageData = restored;
-                await updateDisplayFromImageData();
+                await updateDisplay();
                 showToast('🔄 已还原到原始图片', false);
-            } catch (err) {
+            } catch (e) {
                 showToast('还原失败', true);
             } finally {
                 setProcessing(false, restoreBtn);
             }
         }
 
-        // 事件绑定 + 按钮执行中提示
+        // 事件绑定
         uploadBtn.addEventListener('click', () => fileInput.click());
         placeholder.addEventListener('click', () => fileInput.click());
         fileInput.addEventListener('change', (e) => {
@@ -721,7 +865,7 @@
         });
         encryptBtn.addEventListener('click', () => applyTransform('encrypt', encryptBtn));
         decryptBtn.addEventListener('click', () => applyTransform('decrypt', decryptBtn));
-        restoreBtn.addEventListener('click', restoreOriginalWithFeedback);
+        restoreBtn.addEventListener('click', restoreOriginal);
         downloadLink.addEventListener('click', (e) => {
             if (!downloadLink.href || downloadLink.href === '#') {
                 e.preventDefault();
@@ -731,26 +875,27 @@
             }
         });
 
-        // 深色模式切换
+        // 深色模式
         const darkToggle = document.getElementById('dark-mode-toggle');
-        const setTheme = (isDark) => {
-            if (isDark) {
+        const setTheme = (dark) => {
+            if (dark) {
                 document.body.classList.add('dark');
                 darkToggle.innerHTML = '☀️ 浅色模式';
             } else {
                 document.body.classList.remove('dark');
                 darkToggle.innerHTML = '🌙 深色模式';
             }
-            localStorage.setItem('xfq_theme', isDark ? 'dark' : 'light');
+            localStorage.setItem('theme', dark ? 'dark' : 'light');
         };
-        const savedTheme = localStorage.getItem('xfq_theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setTheme(savedTheme === 'dark' || (!savedTheme && prefersDark));
+        const savedTheme = localStorage.getItem('theme');
+        const preferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setTheme(savedTheme === 'dark' || (!savedTheme && preferDark));
         darkToggle.addEventListener('click', () => setTheme(!document.body.classList.contains('dark')));
 
-        window.addEventListener('beforeunload', () => {
-            if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
-        });
+        // 初始化按钮状态
+        syncButtonsState();
+
+        window.addEventListener('beforeunload', () => revokeUrl());
     })();
 </script>
 </body>
