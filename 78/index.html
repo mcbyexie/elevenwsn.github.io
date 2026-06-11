@@ -1,0 +1,581 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <title>78长度查询器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            -webkit-text-size-adjust: 100% !important;
+            text-size-adjust: 100% !important;
+            -moz-text-size-adjust: 100% !important;
+            overflow-y: auto;
+            background: linear-gradient(135deg, #eff8ff 0%, #e6eeff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            color: #3A4B63;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 100%;
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 8px 20px -5px rgba(74, 137, 220, 0.1), 0 6px 8px -6px rgba(74, 137, 220, 0.05);
+            transition: all .5s ease;
+            position: relative;
+            overflow: visible;
+        }
+
+        .card:hover {
+            box-shadow: 0 16px 28px -10px rgba(74, 137, 220, 0.15), 0 8px 12px -5px rgba(74, 137, 220, 0.1);
+        }
+
+        .title-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .main-title {
+            font-size: clamp(1.4rem, 6vw, 2rem);
+            font-weight: 700;
+            color: #4A89DC;
+            margin-bottom: 4px;
+        }
+
+        .sub-title {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        .input-section {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            color: #4b5563;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .username-input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            font-size: 0.9rem;
+            color: #374151;
+            outline: none;
+            transition: all .2s ease;
+        }
+
+        .username-input:focus {
+            border-color: #4A89DC;
+            box-shadow: 0 0 0 2px rgba(74, 137, 220, 0.3);
+        }
+
+        .username-input:disabled {
+            background: #f3f4f6;
+            cursor: not-allowed;
+            border-color: #d1d5db;
+            color: #9ca3af;
+        }
+
+        .analyze-btn {
+            width: 100%;
+            margin-top: 14px;
+            background: #4A89DC;
+            color: #fff;
+            font-weight: 500;
+            padding: 14px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .3s ease;
+            font-size: 0.95rem;
+        }
+
+        .analyze-btn:hover {
+            box-shadow: 0 8px 12px -3px rgba(74, 137, 220, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .analyze-btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-loading {
+            background: #d1d5db;
+            cursor: not-allowed;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 6px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .result-section {
+            background: #F5F9FF;
+            border-radius: 16px;
+            padding: 18px;
+            display: none;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all .5s ease;
+        }
+
+        .result-section.show {
+            display: block;
+            margin-top: 18px;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .result-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 12px;
+        }
+
+        .username-result {
+            color: #6b7280;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
+        }
+
+        .username-result span {
+            font-weight: 500;
+        }
+
+        .length-result {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .length-value {
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-weight: 700;
+            color: #4A89DC;
+            display: inline-block;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.08); }
+            70% { transform: scale(0.95); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .bounce-in {
+            animation: bounceIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .progress-container {
+            margin-bottom: 18px;
+        }
+
+        .progress-bar-container {
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 1s ease, background 0.3s;
+            background: #4A89DC;
+            position: relative;
+        }
+
+        .progress-bar.animated-stripes {
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            color: #6b7280;
+            font-size: 0.65rem;
+            margin-top: 6px;
+            padding: 0 2px;
+        }
+
+        .evaluation {
+            text-align: center;
+            padding: 10px 16px;
+            background: #eff6ff;
+            border-radius: 10px;
+            color: #4b5563;
+            font-size: 1.2rem;
+            font-weight: 500;
+            opacity: 0;
+            line-height: 1.4;
+            margin-top: 8px;
+        }
+
+        .evaluation.show-text {
+            opacity: 1;
+        }
+
+        .special-result {
+            color: #FF6B6B;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        .negative-result {
+            color: #888;
+            text-shadow: 0 0 10px rgba(136, 136, 136, 0.5);
+        }
+
+        @media (max-width: 320px) {
+            .card { padding: 12px; border-radius: 12px; }
+            .main-title { font-size: 1.3rem; }
+            .sub-title { font-size: 0.75rem; }
+            .username-input { padding: 8px 10px; font-size: 0.8rem; }
+            .analyze-btn { padding: 12px 16px; font-size: 0.85rem; }
+            .length-value { font-size: 2rem; }
+            .evaluation {
+                font-size: 1rem;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="title-section">
+            <h1 class="main-title">78长度查询器</h1>
+            <p class="sub-title">看看你的78长度</p>
+        </div>
+        <div class="input-section">
+            <label for="username" class="input-label">用户名：</label>
+            <input type="text" id="username" class="username-input" placeholder="请输入用户名">
+            <button id="analyzeBtn" class="analyze-btn"><span>开始查询</span></button>
+        </div>
+        <div id="resultSection" class="result-section">
+            <h2 class="result-title">分析结果<a href=https://www.byexie.top/upload.html>点击可上传分享</a></h2>
+            <div class="username-result"><p>用户名: <span id="resultUsername">***</span></p></div>
+            <div class="length-result"><div id="lengthResult" class="length-value">0cm</div></div>
+            <div class="progress-container">
+                <div class="progress-bar-container"><div id="progressBar" class="progress-bar"></div></div>
+                <div class="progress-labels">
+                    <span>-10</span><span>0</span><span>20</span><span>40</span><span>60</span><span>80</span><span>100</span>
+                </div>
+            </div>
+            <div class="evaluation" id="evaluation"><p>分析...</p></div>
+        </div>
+    </div>
+    <script>
+        const clickSound = { play: () => Promise.resolve() };
+
+        const [analyzeBtn, usernameInput, resultSection, resultUsername, lengthResult, progressBar, evaluation] =
+            ['analyzeBtn', 'username', 'resultSection', 'resultUsername', 'lengthResult', 'progressBar', 'evaluation'].map(id => document.getElementById(id));
+
+        const specialUsernames = [
+            "Twi", "twi", "twistar", "Twistar", "TwiStar",
+            "暮星", "暮星Twi", "暮星TwiStar", "暮星twistar",
+            "twistar_", "airer_", "airer"
+        ];
+
+        function isSpecialUsername(username) {
+            return username === "TYK";
+        }
+
+        function isNegativeUsername(username) {
+            return specialUsernames.includes(username);
+        }
+
+        // 基于用户名的哈希函数
+        function hashUsername(username) {
+            let hash = 0;
+            for (let i = 0; i < username.length; i++) {
+                const char = username.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash |= 0;
+            }
+            return Math.abs(hash);
+        }
+
+        // 确定性长度生成：概率分布优化，短区间占比降低
+        function getDeterministicLength(username) {
+            if (isNegativeUsername(username)) return -1;
+            if (isSpecialUsername(username)) return 10000;
+            
+            const hash = hashUsername(username);
+            // 将哈希值映射到0-1之间
+            const normalized = (hash % 10000) / 10000;
+            
+            // 概率分布：更符合真实情况，短区间较少
+            if (normalized < 0.03) {
+                // 3% 概率：-10 ~ 0
+                return Math.floor((hash % 11)) - 10;
+            } else if (normalized < 0.10) {
+                // 7% 概率：1 ~ 10
+                return Math.floor((hash % 10)) + 1;
+            } else if (normalized < 0.25) {
+                // 15% 概率：11 ~ 20
+                return Math.floor((hash % 10)) + 11;
+            } else if (normalized < 0.70) {
+                // 45% 概率：21 ~ 40 (主流)
+                return Math.floor((hash % 20)) + 21;
+            } else if (normalized < 0.88) {
+                // 18% 概率：41 ~ 60
+                return Math.floor((hash % 20)) + 41;
+            } else if (normalized < 0.96) {
+                // 8% 概率：61 ~ 80
+                return Math.floor((hash % 20)) + 61;
+            } else {
+                // 4% 概率：81 ~ 100
+                return Math.floor((hash % 20)) + 81;
+            }
+        }
+
+        // 扩充至100条风趣点评
+        const evals = {
+            s: [
+                '这长度怕不是用纳米技术测量的？', '负数？你确定不是倒欠的？', '勉强能当牙签用，但请不要放弃治疗',
+                '你的78正在重启，请稍后再试...', '可以申请吉尼斯最短纪录了！', '别难过，浓缩的都是精华（大概）',
+                '短小精悍，可惜只有精悍没有短小', '这尺寸，蚊子见了都摇头', '今天78忘记带出门了吗？',
+                '正在为您呼叫增援部队...', '检测到微型模式，请确认', '您的78可能是个概念产品',
+                '长度不够，自信来凑', '小到几乎看不见，但精神可嘉', '这是属于小精灵的尺寸',
+                '别担心，很多植物也有这个尺寸', '可以参加最短78大赛了', '这是78的幼年体吧',
+                '还没开始就结束了？', '这个数字看起来有点谦虚', '您的78可能需要充电',
+                '能测量出来已经是奇迹了', '差不多是隐形78了', '再短一点就是负数了',
+                '78界的袖珍代表', '这个长度只存在于理论中', '是不是忘记展开了？'
+            ],
+            sh: [
+                '及格线边缘疯狂试探', '能用，但别到处说是我告诉你的', 'WiFi两格信号的水平，凑合上网',
+                '比上不足，比下有余，快乐就完事了', '正常范围，但还有很大的进步空间', '潜力股！下次多吃点好的',
+                '属于“够用就行”级别', '平均线以下一点点，加油', '可以勉强挤进正常行列',
+                '再努力一点就能优秀了', '差不多是78界的平民', '这个长度很接地气',
+                '不算优秀，但绝对不差', '中规中矩的起点', '普通人的普通尺寸',
+                '不惊艳也不丢人', '日常水平，无需多言', '刚好可以交差',
+                '不多不少，刚刚起步', '算是正式会员了', '达到了及格线，恭喜',
+                '再长一点就能炫耀了', '这是78的入门版', '可以接受，但别骄傲',
+                '基础款78，朴实无华', '这就是大多数人的水平', '平凡但不平庸',
+                '在这个区间里你很安全', '属于“还可以”级别', '不短不长，够用就行'
+            ],
+            ml: [
+                '中规中矩，适合居家旅行', '稳步发展中，请保持耐心', '不短不长，刚好够用，低调低调',
+                '已经超过一半的人了，可以小骄傲', '标准身材，无需焦虑，自信最美', '继续努力，下一站优秀！',
+                '黄金比例的起点', '正式进入良好行列', '这个长度已经很不错了',
+                '属于让人羡慕的中上水平', '高于平均线，值得肯定', '走在街上可以抬头挺胸',
+                '已经超过了60%的人', '中产阶级78', '非常标准的尺寸',
+                '可圈可点，未来可期', '很均衡，没什么短板', '这是78的黄金成长阶段',
+                '差不多可以申请优秀了', '相当舒适的长度', '大部分人都想要这个尺寸',
+                '稳稳的幸福', '已经不错了，但还可以更好', '这就是传说中的“恰到好处”',
+                '不夸张，但很实用', '在优秀线边缘徘徊', '属于“挺不错”的行列'
+            ],
+            m: [
+                '相当不错！可以出门炫耀了', '这个长度，朋友们都会羡慕的', '黄金尺寸，人见人爱',
+                '完美！请收下我的膝盖', '你已经击败了全国75%的用户', '传说中的“刚刚好”，用过的都说好',
+                '优秀！可以去朋友圈凡尔赛了', '令人艳羡的长度，请保持低调', '再长就要引起交通堵塞了',
+                '王者级别，走路都带风', '太凡尔赛了！我也想拥有', '超越90%的人，今晚加鸡腿',
+                '属于稀有精英级别', '这就是梦中情78', '非常拿得出手',
+                '可以随便吹牛的程度', '78界的优等生', '接近完美的尺寸',
+                '令人嫉妒的长度', '几乎无可挑剔', '这就是所谓的“理想型”',
+                '高端78玩家', '已经进入顶级行列', '这个数字让人心情愉悦',
+                '可以骄傲一辈子的长度', '属于“别人家的78”', '很哇塞的长度'
+            ],
+            g: [
+                '优秀！可以去朋友圈凡尔赛了', '令人艳羡的长度，请保持低调', '再长就要引起交通堵塞了',
+                '王者级别，走路都带风', '太凡尔赛了！我也想拥有', '超越90%的人，今晚加鸡腿',
+                '传说级！请收下我的膝盖骨', '这长度是要破吉尼斯世界纪录吗？', '旷世奇才，万中无一',
+                '太可怕了，你已经没有对手了', '这已经不属于人类范畴，快上交国家', '降维打击！其他人都散了吧',
+                '几乎达到了物理极限', '78界的珠穆朗玛峰', '这个长度只应天上有',
+                '已经接近神话级别', '凡人难以企及的高度', '你可能是78转世',
+                '再长一点点就封神了', '属于传奇级别的存在', '这个数字让人膜拜',
+                '已经是天花板了', '超越认知的长度', '这就是所谓的“无敌”',
+                '可以载入78史册', '你已经站在了顶端', '神话级别的尺寸'
+            ],
+            e: [
+                '传说级！请收下我的膝盖骨', '这长度是要破吉尼斯世界纪录吗？', '旷世奇才，万中无一',
+                '太可怕了，你已经没有对手了', '这已经不属于人类范畴，快上交国家', '降维打击！其他人都散了吧',
+                '逆天！这是宇宙级长度，黑洞都自愧不如', '无敌是多么寂寞，你已突破天际', '神话再现！这个长度只存在于传说中',
+                '数据溢出警告！系统无法计算', '你已经超越了维度，凡人无法理解', '这长度，恐怕连光年都算单位了',
+                '这不是78，这是神迹', '人类进化的终极形态', '你已经不是人了，是神',
+                '维度级别的长度', '宇宙尺度的78', '可以拿出去和神仙比了',
+                '这个数字超出了计算范围', '你已经无敌了', '请收下我的全部膝盖',
+                '再也没有对手了', '这就是终点', '无法超越的存在',
+                '世界纪录在向你招手', '这是78的终极形态', '你已经站在了宇宙之巅'
+            ],
+            special: [
+                '逆天！这是宇宙级长度，黑洞都自愧不如', '无敌是多么寂寞，你已突破天际', '神话再现！这个长度只存在于传说中',
+                '数据溢出警告！系统无法计算', '你已经超越了维度，凡人无法理解', '这长度，恐怕连光年都算单位了',
+                '你已经是78界的创世神', '这个数字不属于这个宇宙', '超越一切的存在',
+                '可以随意穿梭平行宇宙的长度', '这是78的终极奥秘', '你已经超越了规则'
+            ],
+            negative: [
+                '拉完了，你没有78', '查无此78，请确认是否安装', '你的78离家出走了，请尽快找回',
+                '检测失败：78不存在或已过期', '别找了，78今天请假', '空空如也，也许明天会长出来',
+                '78已欠费停机', '您的78可能迷路了', '目前无法显示78',
+                '78正在升级中，请稍后', '系统找不到指定的78', '这个用户名下没有78记录',
+                '抱歉，78不在服务区', '78暂时无法接通', '请先充值78',
+                '78余额为零', '您的78已过期，请续费', '78正在度假，请勿打扰',
+                '78表示不想被测量', '78拒绝了您的请求', '检测到78隐身模式',
+                '78可能藏在某个角落', '找不到78的任何痕迹', '请确认78是否已激活',
+                '78暂时离开了聊天', '78正在加载中，请耐心等待', '78的踪迹是个谜'
+            ]
+        };
+
+        function getRandomEval(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function resetAnimations() {
+            lengthResult.classList.remove('bounce-in');
+            evaluation.classList.remove('fade-in-up', 'show-text');
+            progressBar.classList.remove('animated-stripes');
+            void lengthResult.offsetWidth;
+            void evaluation.offsetWidth;
+            void progressBar.offsetWidth;
+        }
+
+        analyzeBtn.addEventListener('click', () => {
+            clickSound.play().catch(e => {});
+            const username = usernameInput.value.trim();
+            if (!username) return alert('信息不能为空');
+
+            usernameInput.disabled = true;
+            analyzeBtn.disabled = true;
+            analyzeBtn.classList.add('btn-loading');
+            analyzeBtn.innerHTML = '<div class="spinner"></div><span>分析中...</span>';
+
+            setTimeout(() => {
+                resetAnimations();
+                
+                resultSection.classList.add('show');
+                resultUsername.textContent = username;
+
+                const isSpecial = isSpecialUsername(username);
+                const isNegative = isNegativeUsername(username);
+                const len = getDeterministicLength(username);
+
+                let unit = 'cm';
+                let displayValue = len;
+                let progressWidth;
+
+                lengthResult.classList.remove('special-result', 'negative-result');
+                progressBar.style.background = '';
+
+                if (isNegative) {
+                    unit = 'cm';
+                    displayValue = -1;
+                    progressWidth = 0;
+                    lengthResult.classList.add('negative-result');
+                    progressBar.style.background = '#9ca3af';
+                } else if (isSpecial) {
+                    unit = 'km';
+                    displayValue = 10000;
+                    progressWidth = 100;
+                    lengthResult.classList.add('special-result');
+                    progressBar.style.background = '#FF6B6B';
+                } else {
+                    progressWidth = ((len - (-10)) / 110) * 100;
+                    progressWidth = Math.min(100, Math.max(0, progressWidth));
+                    
+                    let barColor;
+                    if (len <= 20) barColor = '#10b981';
+                    else if (len <= 40) barColor = '#4A89DC';
+                    else if (len <= 60) barColor = '#8b5cf6';
+                    else if (len <= 80) barColor = '#f59e0b';
+                    else barColor = '#ef4444';
+                    progressBar.style.background = barColor;
+                }
+
+                let evalText;
+                if (isNegative) {
+                    evalText = getRandomEval(evals.negative);
+                } else if (isSpecial) {
+                    evalText = getRandomEval(evals.special);
+                } else if (len <= 0) {
+                    evalText = getRandomEval(evals.s);
+                } else if (len <= 20) {
+                    evalText = getRandomEval(evals.sh);
+                } else if (len <= 40) {
+                    evalText = getRandomEval(evals.ml);
+                } else if (len <= 60) {
+                    evalText = getRandomEval(evals.m);
+                } else if (len <= 80) {
+                    evalText = getRandomEval(evals.g);
+                } else {
+                    evalText = getRandomEval(evals.e);
+                }
+
+                progressBar.style.width = `${progressWidth}%`;
+                evaluation.textContent = evalText;
+
+                lengthResult.classList.add('bounce-in');
+                evaluation.classList.add('fade-in-up', 'show-text');
+                progressBar.classList.add('animated-stripes');
+
+                animateValue(lengthResult, 0, displayValue, 1500, unit);
+
+                usernameInput.disabled = false;
+                analyzeBtn.disabled = false;
+                analyzeBtn.classList.remove('btn-loading');
+                analyzeBtn.innerHTML = '<span>重新检测</span>';
+            }, 2000);
+        });
+
+        usernameInput.addEventListener('keypress', e => e.key === 'Enter' && analyzeBtn.click());
+
+        function animateValue(el, start, end, duration, unit) {
+            let startTime = null;
+            const step = (timestamp) => {
+                if (!startTime) startTime = timestamp;
+                const progress = Math.min((timestamp - startTime) / duration, 1);
+                const currentValue = Math.round(start + (end - start) * progress);
+                el.textContent = `${currentValue}${unit}`;
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                }
+            };
+            requestAnimationFrame(step);
+        }
+    </script>
+</body>
+</html>
