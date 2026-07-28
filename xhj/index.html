@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>xhjHack</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        #log { height: 300px; border:1px solid #ccc; padding:10px; overflow:auto; white-space:pre-wrap; }
+        button { padding:8px 16px; margin:5px; }
+        .row { margin:8px 0; }
+        input { padding:6px; width:120px; }
+    </style>
+</head>
+<body>
+    <h3>xhjHack</h3>
+
+    <div class="row">
+        <label>你自己的用户ID：</label>
+        <input id="followingId" value="3337531">
+    </div>
+    <div class="row">
+        <label>间隔(毫秒)：</label>
+        <input id="delay" value="500">
+    </div>
+
+    <div>
+        <button id="start">开始</button>
+        <button id="stop">停止</button>
+    </div>
+
+    <div id="log"></div>
+
+    <script>
+        const API_URL = "http://hwxhj.imttmt.com/xhj/user/follow";
+        let running = false;
+        let timer = null;
+        let usedIds = new Set(); // 保证follower_id不重复
+
+        const logEl = document.getElementById('log');
+        const delayEl = document.getElementById('delay');
+        const followingIdEl = document.getElementById('followingId');
+
+        // 生成唯一随机follower_id（100000~999999）
+        function getUniqueFollowerId() {
+            let id;
+            do {
+                id = Math.floor(100000 + Math.random() * 900000);
+            } while (usedIds.has(id));
+            usedIds.add(id);
+            return id;
+        }
+
+        async function sendRequest() {
+            const followerId = getUniqueFollowerId();
+            const targetId = Number(followingIdEl.value);
+
+            const body = JSON.stringify({
+                follower_id: followerId,
+                following_id: targetId
+            });
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: body
+                });
+                const data = await res.json();
+                log(`succeed follower:${followerId} → following:${targetId} | 响应: ${JSON.stringify(data)}`);
+            } catch (err) {
+                log(`Error follower:${followerId} → following:${targetId} | 错误: ${err.message}`);
+            }
+        }
+
+        function loop() {
+            if (!running) return;
+            sendRequest();
+            timer = setTimeout(loop, Number(delayEl.value));
+        }
+
+        function log(text) {
+            const time = new Date().toLocaleTimeString();
+            logEl.innerHTML += `[${time}] ${text}\n`;
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        document.getElementById('start').onclick = () => {
+            if (running) return;
+            running = true;
+            log("=== start succeed ===");
+            loop();
+        };
+
+        document.getElementById('stop').onclick = () => {
+            running = false;
+            clearTimeout(timer);
+            log("=== stop succeed ===");
+        };
+    </script>
+    <a>by laolibuhuifei</a>
+    <a>仅供交流学习，请勿滥用</a>
+</body>
+</html>
