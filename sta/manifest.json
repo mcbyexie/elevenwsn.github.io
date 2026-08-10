@@ -1,0 +1,23 @@
+{
+  "name": "MC服务器状态",
+  "description": "新一代服务器在线列表,支持显示24h内玩家数量变动折线图",
+  "id": "mc_server_status",
+  "author": ["老李不会飞"],
+  "version": "1.0.0",
+  "icon": "newicon.jpg",
+  "dependencies": ["papi"],
+  "tag": ["信息", "服务器"],
+  "template": [
+    {
+      "key": "server_status",
+      "name": "MC服务器状态",
+      "path": "server_status.html",
+      "settings": {
+        "allow": true,
+        "path": "server_status-setting.html"
+      },
+      "width": 800,
+      "no_server": true
+    }
+  ]
+}
